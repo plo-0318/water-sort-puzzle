@@ -1,0 +1,223 @@
+:root {
+  --water-container-width: 4rem;
+  --water-container-height: 16rem;
+  --water-container-height_extra: 2rem;
+  --water-container-border-width: 3px;
+
+  --water-container-hgap: 4.8rem;
+  --water-container-vgap: 9.6rem;
+
+  --water-container-hover-height: -3.6rem;
+
+  --red: #e03131;
+  --pink: #f783ac;
+  --purple: #ae3ec9;
+  --blue: #1c7ed6;
+  --teal: #12b886;
+  --green: #40c057;
+  --orange: #fd7e14;
+}
+
+html {
+  font-size: 62.5%;
+
+  font-family: sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.game_area-container {
+  width: 80rem;
+  height: 60rem;
+  margin: 3.6rem auto 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--water-container-vgap);
+
+  background-color: #333;
+}
+
+.row-container {
+  display: flex;
+  gap: var(--water-container-hgap);
+}
+
+.water-container {
+  display: flex;
+  flex-direction: column-reverse;
+
+  width: var(--water-container-width);
+  height: calc(
+    var(--water-container-height) + var(--water-container-height_extra)
+  );
+
+  border-bottom-left-radius: 48px;
+  border-bottom-right-radius: 48px;
+  border: var(--water-container-border-width) solid #ddd;
+
+  z-index: 2;
+
+  overflow: hidden;
+
+  --move-x: 0;
+  --move-y: 0;
+  --rotate: 0;
+}
+
+.water-container:hover {
+  cursor: pointer;
+}
+
+.water-container__hover {
+  animation: hoverWaterContainer 0.3s linear forwards;
+}
+
+.water-container__unhover {
+  animation: unhoverWaterContainer 0.3s linear forwards;
+}
+
+@keyframes hoverWaterContainer {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(var(--water-container-hover-height));
+  }
+}
+
+@keyframes unhoverWaterContainer {
+  from {
+    transform: translateY(var(--water-container-hover-height));
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.water-container__move {
+  animation: moveWaterContainer 0.5s linear forwards;
+}
+
+.water-container__unmove {
+  animation: unmoveWaterContainer 0.5s linear forwards;
+}
+
+@keyframes moveWaterContainer {
+  from {
+    transform: translate(0, var(--water-container-hover-height)) rotate(0);
+    z-index: 4;
+  }
+
+  to {
+    transform: translate(
+        calc(var(--move-x) - var(--water-container-hgap)),
+        calc(var(--move-y) - var(--water-container-height_extra) * 1.5)
+      )
+      rotate(var(--rotate));
+    z-index: 4;
+  }
+}
+
+@keyframes unmoveWaterContainer {
+  from {
+    transform: translate(
+        calc(var(--move-x) - var(--water-container-hgap)),
+        calc(var(--move-y) - var(--water-container-height_extra) * 1.5)
+      )
+      rotate(var(--rotate));
+    z-index: 4;
+  }
+
+  to {
+    transform: translate(0, 0) rotate(0);
+    z-index: 4;
+  }
+}
+
+.water {
+  width: var(--water-container-width);
+  height: calc(var(--water-container-height) / 4);
+
+  background-color: purple;
+}
+
+.water__decrease {
+  animation: waterDecrease 0.8s linear forwards;
+}
+.water__increase {
+  animation: waterIncease 0.81s linear forwards;
+}
+
+@keyframes waterDecrease {
+  from {
+    height: calc(var(--water-container-height) / 4);
+    z-index: 4;
+  }
+
+  to {
+    height: 0;
+    z-index: 4;
+  }
+}
+
+@keyframes waterIncease {
+  from {
+    height: 0;
+    z-index: 4;
+  }
+
+  to {
+    height: calc(var(--water-container-height) / 4);
+    z-index: 4;
+  }
+}
+
+.water-stream {
+  position: fixed;
+  z-index: 1;
+
+  top: 0;
+  left: 0;
+
+  --water-stream-container-width: calc(
+    var(--water-container-width) - var(--water-container-border-width) -
+      var(--water-container-border-width)
+  );
+
+  height: calc(
+    var(--water-container-height) + var(--water-container-height_extra) * 1.5
+  );
+  width: calc(var(--water-stream-container-width) / 5);
+
+  transform: translate(
+      calc(var(--water-stream-container-width) / 2 - 50%),
+      -100%
+    )
+    scaleY(1);
+
+  transform-origin: top center;
+
+  background-color: rgb(255, 166, 0);
+}
+
+.water-stream-fall {
+  animation: waterStreamFall 0.5s ease-in forwards;
+}
+
+@keyframes waterStreamFall {
+  from {
+    transform: translate(calc(var(--water-stream-container-width) / 2), -100%)
+      scaleY(0);
+  }
+  to {
+    transform: translate(calc(var(--water-stream-container-width) / 2), -100%)
+      scaleY(1);
+  }
+}

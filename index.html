@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link href="waterContainer.css" rel="stylesheet" />
+    <link href="confetti.css" rel="stylesheet" />
+    <link href="modals.css" rel="stylesheet" />
+    <script defer type="module" src="game.js"></script>
+  </head>
+  <body>
+    <div class="modal-backdrop modal-backdrop-fadeIn"></div>
+    <div class="modal-game-won modal-popup">
+      <p class="modal-title-text">AI Won</p>
+      <!-- <hr class="modal-separator" /> -->
+      <p class="modal-content-text">
+        The AI completed the game without any hints!
+      </p>
+      <div class="modal-btns-container">
+        <button class="modal-btn">Play Again</button>
+      </div>
+    </div>
+    <main class="game_area-container">
+      <div class="row-container">
+        <div class="water-container">
+          <div class="water"></div>
+          <!-- <div class="water-stream water-stream-fall"></div> -->
+        </div>
+
+        <div class="water-container">
+          <div class="water"></div>
+        </div>
+
+        <div class="water-container">
+          <div class="water"></div>
+        </div>
+
+        <div class="water-container">
+          <div class="water"></div>
+        </div>
+      </div>
+
+      <div class="row-container">
+        <div class="water-container">
+          <div class="water"></div>
+        </div>
+
+        <div class="water-container">
+          <div class="water"></div>
+        </div>
+
+        <div class="water-container">
+          <div class="water"></div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

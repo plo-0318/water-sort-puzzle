@@ -1,0 +1,182 @@
+:root {
+  --confetti-top: -10px;
+  --confetti-z-index: 5;
+
+  --confetti-slow--start-x: 25px;
+  --confetti-slow--start-y: 105vh;
+  --confetti-slow--end-x: 0;
+  --confetti-slow--end-y: 0;
+  --confetti-slow--start-rotateX: 0;
+  --confetti-slow--start-rotateY: 0;
+  --confetti-slow--end-rotateX: 360deg;
+  --confetti-slow--end-rotateY: 180deg;
+
+  --confetti-medium--start-x: 100px;
+  --confetti-medium--start-y: 105vh;
+  --confetti-medium--end-x: 0;
+  --confetti-medium--end-y: 0;
+  --confetti-medium--start-rotateX: 0;
+  --confetti-medium--start-rotateY: 0;
+  --confetti-medium--end-rotateX: 100deg;
+  --confetti-medium--end-rotateY: 360deg;
+
+  --confetti-fast--start-x: -50px;
+  --confetti-fast--start-y: 105vh;
+  --confetti-fast--end-x: 0;
+  --confetti-fast--end-y: 0;
+  --confetti-fast--start-rotateX: 0;
+  --confetti-fast--start-rotateY: 0;
+  --confetti-fast--end-rotateX: 10deg;
+  --confetti-fast--end-rotateY: 250deg;
+}
+
+/* #btn {
+  font-size: 36px;
+
+  padding: 6px 64px;
+
+  background-color: #69db7c;
+  border-radius: 10px;
+  border: none;
+
+  box-shadow: 5px 5px 7px rgba(0, 0, 0, 0.1), 10px 10px 15px rgba(0, 0, 0, 0.1),
+    50px 50px 60px rgba(0, 0, 0, 0.1);
+
+  z-index: 1;
+
+  transition: all 0.25 ease;
+}
+
+#btn:hover {
+  cursor: pointer;
+  background-color: #8ce99a;
+}
+
+#btn:active {
+  transform: scale(0.9);
+} */
+
+.confetti-wrapper {
+  position: fixed;
+
+  bottom: 0;
+  left: 0;
+
+  width: calc(var(--water-container-width) * 4);
+
+  --confetti-wrapper-move-y: 0;
+
+  transform: translateX(calc(-50% + calc(var(--water-container-width) / 2)))
+    translateY(var(--confetti-wrapper-move-y));
+
+  overflow: hidden;
+  border-bottom-right-radius: 50%;
+  border-bottom-left-radius: 50%;
+
+  z-index: var(--confetti-z-index);
+
+  pointer-events: none;
+
+  /* background-color: rgba(0, 128, 0, 0.5); */
+}
+
+.confetti-container__main {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: none;
+}
+
+.confetti-container {
+  perspective: 700px;
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  pointer-events: none;
+}
+.confetti {
+  position: absolute;
+  top: var(--confetti-top);
+  border-radius: 0;
+
+  pointer-events: none;
+}
+
+.confetti--animation-slow {
+  animation: confetti-slow 2.25s linear 1 forwards;
+}
+
+.confetti--animation-medium {
+  animation: confetti-medium 1.75s linear 1 forwards;
+}
+
+.confetti--animation-fast {
+  animation: confetti-fast 1.25s linear 1 forwards;
+}
+
+@keyframes confetti-slow {
+  0% {
+    transform: translate3d(
+        var(--confetti-slow--start-x),
+        var(--confetti-slow--start-y),
+        0
+      )
+      rotateX(var(--confetti-slow--start-rotateX))
+      rotateY(var(--confetti-slow--start-rotateY));
+  }
+  100% {
+    transform: translate3d(
+        var(--confetti-slow--end-x),
+        var(--confetti-slow--end-y),
+        0
+      )
+      rotateX(var(--confetti-slow--end-rotateX))
+      rotateY(var(--confetti-slow--end-rotateY));
+  }
+}
+@keyframes confetti-medium {
+  0% {
+    transform: translate3d(
+        var(--confetti-medium--start-x),
+        var(--confetti-medium--start-y),
+        0
+      )
+      rotateX(var(--confetti-medium--start-rotateX))
+      rotateY(var(--confetti-medium--start-rotateY));
+  }
+  100% {
+    transform: translate3d(
+        var(--confetti-medium--end-x),
+        var(--confetti-medium--end-y),
+        0
+      )
+      rotateX(var(--confetti-medium--end-rotateX))
+      rotateY(var(--confetti-medium--end-rotateY));
+  }
+}
+@keyframes confetti-fast {
+  0% {
+    transform: translate3d(
+        var(--confetti-fast--start-x),
+        var(--confetti-fast--start-y),
+        0
+      )
+      rotateX(var(--confetti-fast--start-rotateX))
+      rotateY(var(--confetti-fast--start-rotateY));
+  }
+  100% {
+    transform: translate3d(
+        var(--confetti-fast--end-x),
+        var(--confetti-fast--end-y),
+        0
+      )
+      rotateX(var(--confetti-fast--end-rotateX))
+      rotateY(var(--confetti-fast--end-rotateY));
+  }
+}
