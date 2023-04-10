@@ -14,6 +14,7 @@ const Confetti = function (mainContainerEl) {
   this.confettiInterval = null;
 
   this._setupElements();
+  this.flyUp();
 };
 
 Confetti.prototype._setupElements = function () {
@@ -35,6 +36,64 @@ Confetti.prototype._setupElements = function () {
 
   // Storing the reference of the confetti container element
   this.confettiContainerEl = containerEl;
+};
+
+Confetti.prototype.flyUp = function () {
+  document.documentElement.style.setProperty(
+    '--confetti-slow--start-x',
+    '25px'
+  );
+  document.documentElement.style.setProperty(
+    '--confetti-slow--start-y',
+    '105vh'
+  );
+  document.documentElement.style.setProperty('--confetti-slow--end-x', '0');
+  document.documentElement.style.setProperty('--confetti-slow--end-y', '0');
+
+  document.documentElement.style.setProperty(
+    '--confetti-medium--start-x',
+    '100px'
+  );
+  document.documentElement.style.setProperty(
+    '--confetti-medium--start-y',
+    '105vh'
+  );
+  document.documentElement.style.setProperty('--confetti-medium--end-x', '0');
+  document.documentElement.style.setProperty('--confetti-medium--end-y', '0');
+
+  document.documentElement.style.setProperty(
+    '--confetti-fast--start-x',
+    '-50px'
+  );
+  document.documentElement.style.setProperty(
+    '--confetti-fast--start-y',
+    '105vh'
+  );
+  document.documentElement.style.setProperty('--confetti-fast--start-x', '0');
+  document.documentElement.style.setProperty('--confetti-fast--start-y', '0');
+};
+
+Confetti.prototype.flyDown = function () {
+  document.documentElement.style.setProperty('--confetti-slow--start-x', '0');
+  document.documentElement.style.setProperty('--confetti-slow--start-y', '0');
+  document.documentElement.style.setProperty('--confetti-slow--end-x', '25px');
+  document.documentElement.style.setProperty('--confetti-slow--end-y', '105vh');
+
+  document.documentElement.style.setProperty('--confetti-medium--start-x', '0');
+  document.documentElement.style.setProperty('--confetti-medium--start-y', '0');
+  document.documentElement.style.setProperty(
+    '--confetti-medium--end-x',
+    '100px'
+  );
+  document.documentElement.style.setProperty(
+    '--confetti-medium--end-y',
+    '105vh'
+  );
+
+  document.documentElement.style.setProperty('--confetti-fast--start-x', '0');
+  document.documentElement.style.setProperty('--confetti-fast--start-y', '0');
+  document.documentElement.style.setProperty('--confetti-fast--end-x', '-50px');
+  document.documentElement.style.setProperty('--confetti-fast--end-y', '105vh');
 };
 
 Confetti.prototype.render = function () {

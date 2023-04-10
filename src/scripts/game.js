@@ -63,7 +63,7 @@ const startGame = (difficulty) => {
   return state;
 };
 
-// console.log(startGame('easy'));
+console.log(startGame('easy'));
 
 // const ws = document.querySelectorAll('.water-container');
 
