@@ -7,12 +7,24 @@ class GameState {
     this.states = [];
     this.waterContainerEls = [];
     this.gameEnded = false;
+
+    this.moves = 0;
+    this.undos = 0;
+    this.hints = 0;
+    this.ai = false;
+
+    this.difficulty = 'easy';
   }
 
   resetState() {
     this.states = [];
     this.waterContainerEls = [];
     this.gameEnded = false;
+
+    this.moves = 0;
+    this.undos = 0;
+    this.hints = 0;
+    this.ai = false;
   }
 
   addWaterContainers(waterContainers) {
@@ -27,6 +39,10 @@ class GameState {
     return this.states;
   }
 
+  startingState() {
+    return this.states[0];
+  }
+
   currentState() {
     return this.states[this.numStates() - 1] || null;
   }
@@ -38,19 +54,28 @@ class GameState {
   }
 
   undoState() {
-    this.states.pop();
+    if (this.states.length > 1) {
+      this.states.pop();
 
-    return this.currentState();
+      this.undos++;
+      this.moves--;
+
+      return this.currentState();
+    }
+
+    return null;
   }
 
   calculateCurrentState() {
     const newState = [];
 
     this.waterContainerEls.forEach((waterContainer) => {
-      newState.push(getColors(waterContainer));
+      newState.push(getColors(waterContainer).reverse());
     });
 
     this.addState(newState);
+
+    this.moves++;
   }
 
   _validEndStateColors(colors) {
@@ -74,11 +99,11 @@ class GameState {
   isEndState() {
     const currentState = this.currentState();
 
-    currentState.forEach((colors) => {
-      if (!this._validEndStateColors(colors)) {
+    for (let i = 0; i < currentState.length; i++) {
+      if (!this._validEndStateColors(currentState[i])) {
         return false;
       }
-    });
+    }
 
     this.gameEnded = true;
 

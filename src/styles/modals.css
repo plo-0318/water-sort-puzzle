@@ -1,3 +1,8 @@
+/* z-index
+  modal-backdrop: 10
+  modal: 11
+  */
+
 :root {
   --modal-container-min-width: 30rem;
   --modal-container-height: 30rem;
@@ -5,7 +10,6 @@
   --modal-container-gap: 3.6rem;
 
   --modal-text-padding: 0 1.2rem;
-  --modal-title-text-color: #cc5de8;
   --modal-title-text-font-size: 3.6rem;
   --modal-title-text-font-weight: 600;
 
@@ -13,11 +17,24 @@
   --modal-content-text-font-weight: 600;
 
   --modal-btns-container-margin-top: 1.6rem;
-  --modal-btn-background-color: #cc5de8;
-  --modal-btn-background-color__hover: #da77f2;
+  --modal-btns-container-gap: 3.6rem;
+
   --modal-btn-font-size: 1.6rem;
   --modal-btn-font-weight: 600;
   --modal-btn-padding: 1.2rem 2.4rem;
+
+  --game-end-modal-title-text-color: #cc5de8;
+  --game-end-modal-btn-background-color: #cc5de8;
+  --game-end-modal-btn-background-color__hover: #da77f2;
+
+  --game-end-modal-stat-container-gap: 1.2rem;
+  --game-end-modal-stat-icon-size: 2.4rem;
+  --game-end-modal-stat-font-weight: 600;
+  --game-end-modal-stat-text-size: 1.6rem;
+  --game-end-modal-stat-number-size: 1.8rem;
+  --game-end-modal-stat-number-margin: 1.2rem;
+
+  --menu-modal-restart-color: #fa5252;
 }
 
 .modal-backdrop {
@@ -47,7 +64,7 @@
   }
 }
 
-.modal-game-won {
+.modal {
   position: fixed;
 
   top: 15vh;
@@ -64,7 +81,6 @@
 
   padding: var(--modal-container-padding);
 
-  border: 2px solid var(--modal-title-text-color);
   border-radius: 10px;
 
   display: flex;
@@ -73,8 +89,16 @@
   gap: var(--modal-container-gap);
 }
 
+.modal-game-end {
+  border: 2px solid var(--game-end-modal-title-text-color);
+}
+
+.modal-restart {
+  border: 2px solid var(--menu-modal-restart-color);
+}
+
 .modal-popup {
-  animation: modalPopup 0.5s ease-out forwards;
+  animation: modalPopup 0.4s ease-out forwards;
 }
 
 @keyframes modalPopup {
@@ -84,7 +108,7 @@
   }
   to {
     transform: translate(-50%) scale(1);
-    pointer-events: all;
+    pointer-events: auto;
   }
 }
 
@@ -93,12 +117,15 @@
 
   font-size: var(--modal-title-text-font-size);
   font-weight: var(--modal-title-text-font-weight);
-  color: var(--modal-title-text-color);
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.15);
 }
 
-.modal-separator {
-  width: 100%;
+.game-end-modal-title-text {
+  color: var(--game-end-modal-title-text-color);
+}
+
+.restart-modal-title-text {
+  color: var(--menu-modal-restart-color);
 }
 
 .modal-content-text {
@@ -109,18 +136,58 @@
   color: #ddd;
 }
 
+.game-end-stats-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+
+  gap: 0.8rem;
+}
+
+.game-end-stat-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: var(--game-end-modal-stat-container-gap);
+}
+
+.stat-icon {
+  width: var(--game-end-modal-stat-icon-size);
+  stroke: var(--game-end-modal-title-text-color);
+  stroke: #66d9e8;
+  opacity: 0.85;
+}
+
+.stat-text {
+  font-size: var(--game-end-modal-stat-text-size);
+  font-weight: var(--game-end-modal-stat-font-weight);
+  color: var(--game-end-modal-title-text-color);
+  color: #66d9e8;
+  opacity: 0.85;
+}
+
+.stat-text__number {
+  font-size: var(--game-end-modal-stat-number-size);
+  font-weight: var(--game-end-modal-stat-font-weight);
+  color: var(--game-end-modal-title-text-color);
+  color: #66d9e8;
+}
+
 .modal-btns-container {
   width: 100%;
 
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: var(--modal-btns-container-gap);
 
   margin-top: var(--modal-btns-container-margin-top);
 }
 
 .modal-btn {
-  background-color: var(--modal-btn-background-color);
+  background-color: var(--game-end-modal-btn-background-color);
   border: none;
   border-radius: 20px;
   padding: var(--modal-btn-padding);
@@ -137,9 +204,39 @@
 }
 
 .modal-btn:hover {
-  background-color: var(--modal-btn-background-color__hover);
+  background-color: var(--game-end-modal-btn-background-color__hover);
 }
 
 .modal-btn:active {
   transform: scale(0.9);
+}
+
+.modal-btn-restart {
+  /* background-color: var(--menu-modal-restart-color); */
+  background-color: #e03131;
+  color: #eee;
+}
+
+.modal-btn-restart:hover {
+  background-color: var(--menu-modal-restart-color);
+}
+
+.modal-btn-cancel {
+  background-color: #37b24d;
+}
+
+.modal-btn-cancel:hover {
+  background-color: #51cf66;
+}
+
+.content-hide {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.content-show {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
 }

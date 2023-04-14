@@ -1,20 +1,24 @@
 'use strict';
 
-import { generateRowContainer, generateRandomGameState } from './generate.js';
-import {
-  addWaterContainerEventListener,
-  addWaterContainerAnimationEventListener,
-  resetControllerState,
-} from './gameController.js';
 import {
   colors,
   gameDifficulty,
   maxWaterContainerPerRow,
 } from './gameSetting.js';
 import { gameState } from './gameState.js';
+import { generateRowContainer, generateRandomGameState } from './generate.js';
+import { removeWaterStreams } from './util.js';
+import {
+  addWaterContainerEventListener,
+  addWaterContainerAnimationEventListener,
+  resetGameControllerState,
+} from './gameController.js';
 
-const renderGame = (gameAreaEl, currentGameState) => {
+let gameAreaEl = null;
+
+export const renderGame = (currentGameState) => {
   gameAreaEl.innerHTML = '';
+  removeWaterStreams();
 
   const generateGame = (state) => {
     if (state.length === 0) {
@@ -38,32 +42,35 @@ const renderGame = (gameAreaEl, currentGameState) => {
   allWaterContainers.forEach((waterContainer) =>
     waterContainer.setAttribute('containerId', i++)
   );
+
+  resetGameControllerState();
+  gameState.addWaterContainers(Array.from(allWaterContainers));
 };
 
-const startGame = (difficulty) => {
-  const gameAreaEl = document.querySelector('.game_area-container');
-
-  const numContainers = gameDifficulty[difficulty] || gameDifficulty.easy;
-
-  const state = generateRandomGameState(numContainers, Object.values(colors));
-
-  renderGame(gameAreaEl, state);
-
-  resetControllerState();
+const initGame = () => {
+  gameAreaEl = document.querySelector('.game_area-container');
 
   addWaterContainerEventListener(gameAreaEl);
   addWaterContainerAnimationEventListener(gameAreaEl);
+};
+
+export const startNewGame = (difficulty, _gameState = null) => {
+  const numContainers = gameDifficulty[difficulty] || gameDifficulty.easy;
+
+  const state =
+    _gameState || generateRandomGameState(numContainers, Object.values(colors));
 
   gameState.resetState();
-  gameState.addWaterContainers(
-    Array.from(gameAreaEl.querySelectorAll('.water-container'))
-  );
+  gameState.difficulty = difficulty;
   gameState.addState(state);
+
+  renderGame(state);
 
   return state;
 };
 
-console.log(startGame('easy'));
+initGame();
+console.log(startNewGame('medium'));
 
 // const ws = document.querySelectorAll('.water-container');
 
@@ -73,3 +80,5 @@ console.log(startGame('easy'));
 
 // console.log(rect.bottom);
 // console.log(window.innerHeight);
+
+//TODO: add settings menu

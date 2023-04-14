@@ -1,3 +1,8 @@
+/* z-index
+  confetti-default: 5
+  confetti-game-end: 12
+  */
+
 :root {
   --confetti-top: -10px;
   --confetti-z-index: 5;
@@ -179,4 +184,23 @@
       rotateX(var(--confetti-fast--end-rotateX))
       rotateY(var(--confetti-fast--end-rotateY));
   }
+}
+
+.game-end-confetti-wrapper {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  width: 100vw;
+  height: 100vh;
+
+  z-index: 12;
+
+  pointer-events: none;
+}
+
+.game-end-confetti-container {
+  width: 100%;
+  height: 100%;
 }

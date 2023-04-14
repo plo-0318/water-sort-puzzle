@@ -1,0 +1,53 @@
+:root {
+  --menu-items-gap: 3.6rem;
+  --menu-item-size: 3.6rem;
+}
+
+.menu-items-container {
+  width: var(--game-area-width);
+
+  list-style: none;
+
+  margin: 3.6rem auto 0 auto;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+  gap: var(--menu-items-gap);
+}
+
+.menu-item-container {
+  aspect-ratio: 1 / 1;
+
+  width: var(--menu-item-size);
+
+  transition: all 0.3s;
+}
+
+.menu-item-container:hover {
+  cursor: pointer;
+}
+
+.menu-item-container[disabled] {
+  pointer-events: none;
+}
+
+.icon {
+  width: 100%;
+
+  stroke: #c0eb75;
+
+  transition: all 0.3s;
+
+  pointer-events: none;
+}
+
+.menu-item-container:hover > .icon {
+  stroke: #f4fce3;
+}
+
+.menu-item-container[disabled] > .icon {
+  opacity: 0.8;
+  stroke: #e03131;
+}

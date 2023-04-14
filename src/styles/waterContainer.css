@@ -1,4 +1,18 @@
+/* z-index
+  background: -1
+  water stream: 1
+  water container: 2
+  water container move: 4
+  water fill: 4 
+  */
+
 :root {
+  --game-area-width: 80rem;
+}
+
+:root {
+  --water-container-animation-speed: 1;
+
   --water-container-width: 4rem;
   --water-container-height: 16rem;
   --water-container-height_extra: 2rem;
@@ -30,10 +44,24 @@ html {
   padding: 0;
 }
 
+.background {
+  position: fixed;
+
+  top: 0;
+  left: 0;
+
+  z-index: -1;
+
+  width: 100vw;
+  height: 100vh;
+
+  background-color: #333;
+}
+
 .game_area-container {
-  width: 80rem;
+  width: var(--game-area-width);
   height: 60rem;
-  margin: 3.6rem auto 0 auto;
+  margin: 1.2rem auto 0 auto;
 
   display: flex;
   flex-direction: column;
@@ -41,7 +69,7 @@ html {
   justify-content: center;
   gap: var(--water-container-vgap);
 
-  background-color: #333;
+  /* background-color: #333; */
 }
 
 .row-container {
@@ -76,11 +104,13 @@ html {
 }
 
 .water-container__hover {
-  animation: hoverWaterContainer 0.3s linear forwards;
+  animation: hoverWaterContainer
+    calc(0.3s / var(--water-container-animation-speed)) linear forwards;
 }
 
 .water-container__unhover {
-  animation: unhoverWaterContainer 0.3s linear forwards;
+  animation: unhoverWaterContainer
+    calc(0.3s / var(--water-container-animation-speed)) linear forwards;
 }
 
 @keyframes hoverWaterContainer {
@@ -102,11 +132,13 @@ html {
 }
 
 .water-container__move {
-  animation: moveWaterContainer 0.5s linear forwards;
+  animation: moveWaterContainer
+    calc(0.5s / var(--water-container-animation-speed)) linear forwards;
 }
 
 .water-container__unmove {
-  animation: unmoveWaterContainer 0.5s linear forwards;
+  animation: unmoveWaterContainer
+    calc(0.5s / var(--water-container-animation-speed)) linear forwards;
 }
 
 @keyframes moveWaterContainer {
@@ -149,10 +181,12 @@ html {
 }
 
 .water__decrease {
-  animation: waterDecrease 0.8s linear forwards;
+  animation: waterDecrease calc(0.8s / var(--water-container-animation-speed))
+    linear forwards;
 }
 .water__increase {
-  animation: waterIncease 0.81s linear forwards;
+  animation: waterIncease calc(0.81s / var(--water-container-animation-speed))
+    linear forwards;
 }
 
 @keyframes waterDecrease {
@@ -208,7 +242,8 @@ html {
 }
 
 .water-stream-fall {
-  animation: waterStreamFall 0.5s ease-in forwards;
+  animation: waterStreamFall calc(0.5s / var(--water-container-animation-speed))
+    ease-in forwards;
 }
 
 @keyframes waterStreamFall {

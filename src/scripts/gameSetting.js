@@ -1,5 +1,7 @@
 'use strict';
 
+export let animationSpeed = 1;
+
 export const colors = {
   red: '#e03131',
   blue: '#1c7ed6',
@@ -8,7 +10,7 @@ export const colors = {
   pink: '#f783ac',
   orange: ' #fd7e14',
   yellow: '#ffe066',
-  green: '#40c057',
+  green: '#2b8a3e',
   indigo: '#91a7ff',
 };
 
@@ -23,23 +25,23 @@ export const gameDifficulty = {
 export const modalSetting = {
   gameWon: {
     color: '#69db7c',
-    highlight: '#8ce99a',
+    highlightColor: '#8ce99a',
     title: 'You Won',
     content: 'You completed the game without any hints!',
-    btnText: ['Play Again'],
+    btnText: 'Play Again',
   },
   gameWonWithHint: {
     color: '#ff922b',
-    highlight: '#ffa94d',
+    highlightColor: '#ffa94d',
     title: 'You Won',
-    content: 'You completed the game some hints!',
-    btnText: ['Play Again'],
+    content: 'You completed the game with some hints!',
+    btnText: 'Play Again',
   },
   gameWonByAI: {
     color: '#cc5de8',
-    highlight: '#da77f2',
+    highlightColor: '#da77f2',
     title: 'AI Won',
     content: 'The AI completed the game without any hints!',
-    btnText: ['Play Again'],
+    btnText: 'Play Again',
   },
 };

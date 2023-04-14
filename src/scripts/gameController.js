@@ -1,27 +1,38 @@
 'use strict';
 
-import { getWaterEls, fullAndSameColor } from './util.js';
+import { modalSetting, animationSpeed } from './gameSetting.js';
+import { gameState } from './gameState.js';
+import Confetti from './confetti.js';
 import {
   generateWater,
   generateConfetti,
   generateWaterStream,
 } from './generate.js';
-import { gameState } from './gameState.js';
+import { getWaterEls, fullAndSameColor } from './util.js';
 
-const waterStreamAnimationDuration = 500;
+import { startNewGame } from './game.js';
+import { showGameEndModal } from './modalController.js';
+import { disableMenuBtns, enableMenuBtns } from './menuController.js';
+
+const waterStreamAnimationDuration = () => {
+  500 / animationSpeed;
+};
 
 let animationPlaying = false;
 let currentWaterContainer = null;
 let fromContainer = null;
 let toContainer = null;
 let waterStreamEl = null;
+let pourWaterDelayTimeout = null;
 
-export const resetControllerState = () => {
+export const resetGameControllerState = () => {
   animationPlaying = false;
   currentWaterContainer = null;
   fromContainer = null;
   toContainer = null;
   waterStreamEl = null;
+
+  pourWaterDelayTimeout && clearTimeout(pourWaterDelayTimeout);
 };
 
 const waterContainerAnimations = [
@@ -35,31 +46,10 @@ const removeAllAnimations = (el, animations) => {
   animations.forEach((animation) => el.classList.remove(animation));
 };
 
-const hoverWaterContainer = (waterContainer) => {
-  if (getWaterEls(waterContainer).length === 0) {
-    return;
-  }
-
-  removeAllAnimations(waterContainer, waterContainerAnimations);
-
-  waterContainer.classList.add('water-container__hover');
-  currentWaterContainer = waterContainer;
-
-  animationPlaying = true;
-};
-
-const unhoverWaterContainer = (waterContainer) => {
-  removeAllAnimations(waterContainer, waterContainerAnimations);
-
-  waterContainer.classList.add('water-container__unhover');
-  currentWaterContainer = null;
-
-  animationPlaying = true;
-};
-
+// Water container CLICK event listener
 export const addWaterContainerEventListener = (gameAreaEl) => {
   gameAreaEl.addEventListener('click', (e) => {
-    if (animationPlaying) {
+    if (animationPlaying || gameState.gameEnded) {
       return;
     }
 
@@ -90,6 +80,98 @@ export const addWaterContainerEventListener = (gameAreaEl) => {
   });
 };
 
+const hoverWaterContainer = (waterContainer) => {
+  if (getWaterEls(waterContainer).length === 0) {
+    return;
+  }
+
+  removeAllAnimations(waterContainer, waterContainerAnimations);
+
+  waterContainer.classList.add('water-container__hover');
+  currentWaterContainer = waterContainer;
+
+  animationPlaying = true;
+};
+
+const unhoverWaterContainer = (waterContainer) => {
+  removeAllAnimations(waterContainer, waterContainerAnimations);
+
+  waterContainer.classList.add('water-container__unhover');
+  currentWaterContainer = null;
+
+  animationPlaying = true;
+};
+
+// Water container / Water ANIMATION END event listener
+export const addWaterContainerAnimationEventListener = (gameAreaEl) => {
+  gameAreaEl.addEventListener('animationend', (e) => {
+    const classList = e.target.classList;
+
+    if (classList.contains('water-container')) {
+      handleWaterContainerAnimationEnd(e.target);
+    } else if (classList.contains('water')) {
+      handleWaterAnimationEnd(e.target);
+    }
+  });
+};
+
+const handleWaterContainerAnimationEnd = (waterContainer) => {
+  // The origin water container finished its moving animation to the destination position
+  if (waterContainer.classList.contains('water-container__move')) {
+    // Generate the water stream element
+    const fromWaterEls = getWaterEls(fromContainer);
+    const waterToPour = fromWaterEls[0];
+    const waterColor = waterToPour.style.backgroundColor;
+
+    waterStreamEl = generateWaterStream(toContainer, waterColor);
+
+    // Wait until the water stream reaches the top most water in the destination container
+    // Then start pouring the water
+    pourWaterDelayTimeout = setTimeout(() => {
+      pourWater(fromContainer, toContainer);
+    }, waterStreamAnimationDuration - getWaterEls(toContainer).length * (waterStreamAnimationDuration() * 0.2));
+  }
+  // The origin water container finished its moving animation back to its original position
+  else if (waterContainer.classList.contains('water-container__unmove')) {
+    enableMenuBtns();
+
+    removeAllAnimations(waterContainer, waterContainerAnimations);
+
+    currentWaterContainer = null;
+    animationPlaying = false;
+
+    // After the water container is back in place, check if the game has ended
+    if (gameState.isEndState()) {
+      handleGameEnd();
+    }
+  }
+  // The water container finished its hover/unhover animation
+  else {
+    animationPlaying = false;
+  }
+};
+
+const handleWaterAnimationEnd = (water) => {
+  // A unit of water has just finished it pouring animation
+  if (water.classList.contains('water__decrease')) {
+    // Remove the water from the DOM
+    water.remove();
+  }
+  // A unit of water has just finished it filling animation
+  else if (water.classList.contains('water__increase')) {
+    // Get the water container element
+    const waterContainer = water.closest('.water-container');
+
+    if (fullAndSameColor(waterContainer)) {
+      generateConfetti(waterContainer, 3000);
+    }
+
+    // Try to pour more water
+    water.classList.remove('water__increase');
+    pourWater(fromContainer, toContainer);
+  }
+};
+
 const canPour = (from, to) => {
   const fromWaterEls = getWaterEls(from);
   const toWaterEls = getWaterEls(to);
@@ -117,6 +199,9 @@ const moveWaterContainer = (from, to) => {
     unhoverWaterContainer(from);
     return;
   }
+
+  // Disable the menu buttons
+  disableMenuBtns();
 
   fromContainer = from;
   toContainer = to;
@@ -177,64 +262,41 @@ const pourWater = (from, to) => {
   }
 };
 
-export const addWaterContainerAnimationEventListener = (gameAreaEl) => {
-  gameAreaEl.addEventListener('animationend', (e) => {
-    const classList = e.target.classList;
+const handleGameEnd = () => {
+  // Create confetti wrapper and container
+  const confettiWrapperEl = document.createElement('div');
+  const confettiContainerEl = document.createElement('div');
 
-    if (classList.contains('water-container')) {
-      handleWaterContainerAnimationEnd(e.target);
-    } else if (classList.contains('water')) {
-      handleWaterAnimationEnd(e.target);
-    }
-  });
-};
+  // Disable the menu buttons
+  disableMenuBtns();
 
-const handleWaterContainerAnimationEnd = (waterContainer) => {
-  // The origin water container finished its moving animation to the destination position
-  if (waterContainer.classList.contains('water-container__move')) {
-    // Generate the water stream element
-    const fromWaterEls = getWaterEls(fromContainer);
-    const waterToPour = fromWaterEls[0];
-    const waterColor = waterToPour.style.backgroundColor;
+  setTimeout(() => {
+    // Initialize the confetti wrapper and container
+    confettiWrapperEl.classList.add('game-end-confetti-wrapper');
+    confettiContainerEl.classList.add('game-end-confetti-container');
+    document.body.appendChild(confettiWrapperEl);
+    confettiWrapperEl.appendChild(confettiContainerEl);
 
-    waterStreamEl = generateWaterStream(toContainer, waterColor);
+    // Create the confetti and render
+    const confetti = new Confetti(confettiContainerEl);
+    confetti.flyDown();
+    confetti.render();
 
-    // Wait until the water stream reaches the top most water in the destination container
-    // Then start pouring the water
-    setTimeout(() => {
-      pourWater(fromContainer, toContainer);
-    }, waterStreamAnimationDuration - getWaterEls(toContainer).length * (waterStreamAnimationDuration * 0.2));
-  }
-  // The origin water container finished its moving animation back to its original position
-  else if (waterContainer.classList.contains('water-container__unmove')) {
-    removeAllAnimations(waterContainer, waterContainerAnimations);
+    // Create the modal button on-click handler
+    const onModalBtnClick = () => {
+      // Reset the confetti fly direction, and stop rendering
+      confetti.flyUp();
+      confetti.stopRender();
+      // Remove the confettin wrapper
+      confettiWrapperEl.remove();
 
-    currentWaterContainer = null;
-    animationPlaying = false;
-  }
-  // The water container finished its hover/unhover animation
-  else {
-    animationPlaying = false;
-  }
-};
+      // Enable the menu buttons
+      enableMenuBtns();
 
-const handleWaterAnimationEnd = (water) => {
-  // A unit of water has just finished it pouring animation
-  if (water.classList.contains('water__decrease')) {
-    // Remove the water from the DOM
-    water.remove();
-  }
-  // A unit of water has just finished it filling animation
-  else if (water.classList.contains('water__increase')) {
-    // Get the water container element
-    const waterContainer = water.closest('.water-container');
+      // Start a new game
+      startNewGame(gameState.difficulty);
+    };
 
-    if (fullAndSameColor(waterContainer)) {
-      generateConfetti(waterContainer, 3000);
-    }
-
-    // Try to pour more water
-    water.classList.remove('water__increase');
-    pourWater(fromContainer, toContainer);
-  }
+    showGameEndModal(modalSetting.gameWonWithHint, onModalBtnClick);
+  }, 500);
 };

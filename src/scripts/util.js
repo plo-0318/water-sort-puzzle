@@ -50,3 +50,46 @@ export const fullAndSameColor = (waterContainer) => {
 
   return sameColor === 4;
 };
+
+export const removeWaterStreams = () => {
+  const waterStreamEls = document.querySelectorAll('.water-stream');
+
+  waterStreamEls.forEach((waterStreamEl) => waterStreamEl.remove());
+};
+
+// let map = new Map();
+// map.set('#e03131', 'red');
+// map.set('#1c7ed6', 'blue');
+// map.set('#ae3ec9', 'purple');
+// map.set('#12b886', 'teal');
+// map.set('#f783ac', 'pink');
+// map.set('#fd7e14', 'orange');
+// map.set('#ffe066', 'yellow');
+// map.set('#2b8a3e', 'green');
+// map.set('#91a7ff', 'indigo');
+
+// export const printAllStatesColorString = (states) => {
+//   const colorStates = [];
+
+//   states.forEach((state) => {
+//     colorStates.push(printStateColorString(state));
+//   });
+
+//   return colorStates;
+// };
+
+// export const printStateColorString = (state) => {
+//   const colorState = [];
+
+//   state.forEach((colors) => {
+//     const colorStrings = [];
+
+//     colors.forEach((color) => {
+//       colorStrings.push(map.get(color));
+//     });
+
+//     colorState.push(colorStrings);
+//   });
+
+//   return colorState;
+// };
