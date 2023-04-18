@@ -69,8 +69,8 @@ Confetti.prototype.flyUp = function () {
     '--confetti-fast--start-y',
     '105vh'
   );
-  document.documentElement.style.setProperty('--confetti-fast--start-x', '0');
-  document.documentElement.style.setProperty('--confetti-fast--start-y', '0');
+  document.documentElement.style.setProperty('--confetti-fast--end-x', '0');
+  document.documentElement.style.setProperty('--confetti-fast--end-y', '0');
 };
 
 Confetti.prototype.flyDown = function () {

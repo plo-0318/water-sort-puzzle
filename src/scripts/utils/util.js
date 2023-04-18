@@ -5,6 +5,8 @@ export const getWaterEls = (waterContainer) => {
 
   const water = [];
 
+  // Inserting the new water into the front
+  // Reversing the order
   waterEls.forEach((waterEl) => water.unshift(waterEl));
 
   return water;
@@ -34,21 +36,21 @@ export const getColors = (waterContainer) => {
 export const fullAndSameColor = (waterContainer) => {
   const waterEls = getWaterEls(waterContainer);
 
+  // Container is not full --> false
   if (waterEls.length < 4) {
     return false;
   }
 
-  let sameColor = 1;
-
+  // If any water has different color from the frist water --> false
   for (let i = 1; i < waterEls.length; i++) {
     if (
-      waterEls[i].style.backgroundColor === waterEls[0].style.backgroundColor
+      waterEls[i].style.backgroundColor !== waterEls[0].style.backgroundColor
     ) {
-      sameColor++;
+      return false;
     }
   }
 
-  return sameColor === 4;
+  return true;
 };
 
 export const removeWaterStreams = () => {
@@ -56,6 +58,30 @@ export const removeWaterStreams = () => {
 
   waterStreamEls.forEach((waterStreamEl) => waterStreamEl.remove());
 };
+
+const validContainerEndState = (colors) => {
+  // If the container is empty --> valid
+  if (colors.length === 0) {
+    return true;
+  }
+
+  // If the container is not empty and contains less than 4 units of water --> invalid
+  if (colors.length < 4) {
+    return false;
+  }
+
+  // If any water has different color from the frist water --> invalid
+  for (let i = 1; i < colors.length; i++) {
+    if (colors[i] !== colors[0]) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+export const validEndState = (state) =>
+  !state.some((s) => !validContainerEndState(s));
 
 // let map = new Map();
 // map.set('#e03131', 'red');

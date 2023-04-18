@@ -1,6 +1,6 @@
 'use strict';
 
-import { getColors } from './util.js';
+import { getColors, validEndState } from '../utils/util.js';
 
 class GameState {
   constructor() {
@@ -78,31 +78,9 @@ class GameState {
     this.moves++;
   }
 
-  _validEndStateColors(colors) {
-    if (colors.length === 0) {
-      return true;
-    }
-
-    if (colors.length < 4) {
-      return false;
-    }
-
-    for (let i = 1; i < colors.length; i++) {
-      if (colors[i] !== colors[0]) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
   isEndState() {
-    const currentState = this.currentState();
-
-    for (let i = 0; i < currentState.length; i++) {
-      if (!this._validEndStateColors(currentState[i])) {
-        return false;
-      }
+    if (!validEndState(this.currentState())) {
+      return false;
     }
 
     this.gameEnded = true;

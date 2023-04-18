@@ -1,6 +1,7 @@
-import { gameState } from './gameState.js';
-import { startNewGame, renderGame } from './game.js';
+import { gameState } from '../models/gameState.js';
+import { renderGame } from '../game.js';
 import { showRestartModal } from './modalController.js';
+import { showSettingsModal } from './settingsModalController.js';
 
 const menuContainer = document.querySelector('.menu-items-container');
 
@@ -43,4 +44,8 @@ rewindBtn.addEventListener('click', () => {
   if (prevGameState) {
     renderGame(prevGameState);
   }
+});
+
+settingBtn.addEventListener('click', () => {
+  showSettingsModal();
 });

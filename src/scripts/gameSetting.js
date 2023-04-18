@@ -2,6 +2,17 @@
 
 export let animationSpeed = 1;
 
+export const setAnimationSpeed = (speed) => {
+  if (speed !== 1 && speed !== 2) {
+    return;
+  }
+
+  animationSpeed = speed;
+};
+
+export let currentOpenedModal = [];
+export let modalsAllowedToCloseFromBackdrop = [];
+
 export const colors = {
   red: '#e03131',
   blue: '#1c7ed6',

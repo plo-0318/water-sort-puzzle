@@ -5,14 +5,20 @@ import {
   gameDifficulty,
   maxWaterContainerPerRow,
 } from './gameSetting.js';
-import { gameState } from './gameState.js';
-import { generateRowContainer, generateRandomGameState } from './generate.js';
-import { removeWaterStreams } from './util.js';
+import { gameState } from './models/gameState.js';
+import {
+  generateRowContainer,
+  generateRandomGameState,
+} from './utils/generate.js';
+import { removeWaterStreams } from './utils/util.js';
 import {
   addWaterContainerEventListener,
   addWaterContainerAnimationEventListener,
   resetGameControllerState,
-} from './gameController.js';
+} from './controllers/gameController.js';
+
+import { Dfs } from './search/dfs.js';
+import { Bfs } from './search/bfs.js';
 
 let gameAreaEl = null;
 
@@ -70,7 +76,7 @@ export const startNewGame = (difficulty, _gameState = null) => {
 };
 
 initGame();
-console.log(startNewGame('medium'));
+console.log(startNewGame('easy'));
 
 // const ws = document.querySelectorAll('.water-container');
 
@@ -81,4 +87,74 @@ console.log(startNewGame('medium'));
 // console.log(rect.bottom);
 // console.log(window.innerHeight);
 
-//TODO: add settings menu
+//TODO: add settings menu -->  ai
+
+// const from = ['#1c7ed6', '#e03131', '#ae3ec9', '#e03131'];
+// const to = ['#1c7ed6', '#ae3ec9', '#e03131'];
+
+const state1 = [
+  ['#ae3ec9', '#e03131', '#1c7ed6', '#ae3ec9'],
+  ['#1c7ed6', '#e03131', '#ae3ec9', '#e03131'],
+  ['#1c7ed6', '#ae3ec9', '#e03131'],
+  ['#1c7ed6'],
+  [],
+];
+
+const state2 = [
+  ['#e03131', '#ae3ec9', '#1c7ed6', '#e03131'],
+  ['#ae3ec9', '#e03131'],
+  ['#ae3ec9', '#ae3ec9', '#e03131', '#1c7ed6'],
+  [],
+  ['#1c7ed6', '#1c7ed6'],
+];
+
+const state3 = [
+  ['#e03131', '#ae3ec9', '#ae3ec9', '#e03131'],
+  ['#ae3ec9', '#e03131', '#ae3ec9', '#e03131'],
+  [],
+  [],
+];
+
+// const state4 = [
+//   ['#e03131', '#ae3ec9', '#1c7ed6', '#e03131'],
+//   ['#ae3ec9', '#e03131'],
+//   ['#ae3ec9', '#ae3ec9', '#e03131', '#1c7ed6'],
+//   ['#1c7ed6'],
+//   ['#1c7ed6'],
+// ];
+
+// const state5 = [
+//   ['#e03131', '#ae3ec9', '#1c7ed6', '#e03131'],
+//   ['#ae3ec9', '#e03131'],
+//   ['#ae3ec9', '#ae3ec9', '#e03131', '#1c7ed6'],
+//   ['#1c7ed6', '#1c7ed6'],
+//   [],
+// ];
+
+// const state6 = [
+//   ['#e03131', '#ae3ec9', '#1c7ed6'],
+//   ['#ae3ec9', '#e03131'],
+//   ['#ae3ec9', '#ae3ec9', '#e03131', '#1c7ed6'],
+//   ['#e03131'],
+//   ['#1c7ed6', '#1c7ed6'],
+// ];
+
+const state7 = [
+  ['#f783ac', '#fd7e14', '#f783ac', '#12b886'],
+  ['#ae3ec9', '#ae3ec9', '#f783ac', '#1c7ed6'],
+  ['#fd7e14', '#1c7ed6', '#1c7ed6'],
+  ['#fd7e14', '#e03131', '#12b886', '#e03131'],
+  ['#12b886', '#f783ac', '#fd7e14', '#ae3ec9'],
+  ['#e03131', '#e03131', '#1c7ed6', '#ae3ec9'],
+  ['#12b886'],
+  [],
+];
+
+const dfs = new Dfs(state2);
+const bfs = new Bfs(state2);
+
+// console.log(dfs.search());
+console.log(bfs.search());
+
+// console.log('length', dfs.path);
+// dfs._test();

@@ -1,7 +1,11 @@
 'use strict';
 
-import { gameState } from './gameState.js';
-import { startNewGame } from './game.js';
+import {
+  currentOpenedModal,
+  modalsAllowedToCloseFromBackdrop,
+} from '../gameSetting.js';
+import { gameState } from '../models/gameState.js';
+import { startNewGame } from '../game.js';
 
 const backdropEl = document.querySelector('.modal-backdrop');
 const gameEndModalEl = document.querySelector('.modal-game-end');
@@ -15,15 +19,33 @@ const gameEndStatUndosEl = document.getElementById('stat-undos');
 const gameEndStatHintssEl = document.getElementById('stat-hints');
 
 const restartModalEl = document.querySelector('.modal-restart');
-const restartModalRestartBtnEl = document.querySelector('.modal-btn-restart');
-const restartModalCancelBtnEl = document.querySelector('.modal-btn-cancel');
+const restartModalRestartBtnEl = document.getElementById('btn-restart-game');
+const restartModalCancelBtnEl = document.getElementById(
+  'btn-cancel-restart-game'
+);
 
 let gameEndModalBtnEventListener = null;
+
+modalsAllowedToCloseFromBackdrop.push(restartModalEl);
 
 // Remove the showing animation class after playing
 backdropEl.addEventListener('animationend', () => {
   backdropEl.classList.contains('modal-backdrop-fadeIn') &&
     backdropEl.classList.remove('modal-backdrop-fadeIn');
+});
+
+backdropEl.addEventListener('click', () => {
+  if (currentOpenedModal.length <= 0) {
+    return;
+  }
+
+  const currentModal = currentOpenedModal[currentOpenedModal.length - 1];
+
+  if (!modalsAllowedToCloseFromBackdrop.includes(currentModal)) {
+    return;
+  }
+
+  hideModal(currentModal);
 });
 
 // Remove the showing animation class after playing
@@ -34,7 +56,7 @@ document.body.addEventListener('animationend', (e) => {
   }
 });
 
-const showModal = (modal) => {
+export const showModal = (modal, backdropAnimation = true) => {
   // Un-hide the modal and backdrop element
   backdropEl.classList.contains('content-hide') &&
     backdropEl.classList.remove('content-hide');
@@ -43,16 +65,25 @@ const showModal = (modal) => {
     modal.classList.remove('content-hide');
 
   // Play the showing animation
-  backdropEl.classList.add('modal-backdrop-fadeIn');
+  if (backdropAnimation) {
+    backdropEl.classList.add('modal-backdrop-fadeIn');
+  }
+
   modal.classList.add('modal-popup');
+
+  currentOpenedModal.push(modal);
 };
 
-const hideModal = (modal) => {
-  !backdropEl.classList.contains('content-hide') &&
-    backdropEl.classList.add('content-hide');
+export const hideModal = (modal, hideBackdrop = true) => {
+  if (hideBackdrop) {
+    !backdropEl.classList.contains('content-hide') &&
+      backdropEl.classList.add('content-hide');
+  }
 
   !modal.classList.contains('content-hide') &&
     modal.classList.add('content-hide');
+
+  currentOpenedModal.pop();
 };
 
 export const showGameEndModal = (options, onModalBtnClick = null) => {

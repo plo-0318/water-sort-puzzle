@@ -1,16 +1,16 @@
 'use strict';
 
-import { modalSetting, animationSpeed } from './gameSetting.js';
-import { gameState } from './gameState.js';
-import Confetti from './confetti.js';
+import { modalSetting, animationSpeed } from '../gameSetting.js';
+import { gameState } from '../models/gameState.js';
+import Confetti from '../models/confetti.js';
 import {
   generateWater,
   generateConfetti,
   generateWaterStream,
-} from './generate.js';
-import { getWaterEls, fullAndSameColor } from './util.js';
+} from '../utils/generate.js';
+import { getWaterEls, fullAndSameColor } from '../utils/util.js';
 
-import { startNewGame } from './game.js';
+import { startNewGame } from '../game.js';
 import { showGameEndModal } from './modalController.js';
 import { disableMenuBtns, enableMenuBtns } from './menuController.js';
 
