@@ -13,9 +13,33 @@ bottom of container --> top of container
 */
 
 export class StateNode {
-  constructor(state, parent) {
+  constructor(state, parentNode) {
     this.state = state;
-    this.parent = parent;
+    this.parentNode = parentNode || null;
+    this.hashCode = this.generateHashCode();
+  }
+
+  generateHashCode() {
+    const jsonStr = JSON.stringify(this.state);
+
+    let hash = 0;
+
+    for (let i = 0; i < jsonStr.length; i++) {
+      // Get the Unicode value of the character at index i
+      let charCode = jsonStr.charCodeAt(i);
+
+      // Calculate the hash code using the "djb2" algorithm, which involves bit shifting and subtraction.
+      hash = (hash << 5) - hash + charCode;
+
+      // Convert the hash code to a 32-bit integer to avoid overflow.
+      hash = hash & hash;
+    }
+
+    return hash;
+  }
+
+  equals(stateNode) {
+    return this.hashCode === stateNode.hashCode;
   }
 }
 
@@ -23,28 +47,44 @@ export const validEndStateNode = (node) => {
   return validEndState(node.state);
 };
 
-const allowedToPour = (container1, container2) => {
-  if (container1.length === 0) {
+const allowedToPour = (containerFrom, containerTo) => {
+  // containerFrom is empty, nothing to pour --> false
+  if (containerFrom.length === 0) {
     return false;
   }
 
-  return (
-    container1[container1.length - 1] === container2[container2.length - 1] ||
-    container2.length === 0
-  );
+  // containerTo is full --> false
+  if (containerTo.length === 4) {
+    return false;
+  }
+
+  // containerFrom and containerTo has the same top color --> true
+  if (
+    containerFrom[containerFrom.length - 1] ===
+    containerTo[containerTo.length - 1]
+  ) {
+    return true;
+  }
+
+  // containerTo is empty --> true
+  if (containerTo.length === 0) {
+    return true;
+  }
 };
 
+// Generate the resulting state node of pouring water from one container to another container
 const resultingStateNode = (fromContainerIndex, toContainerIndex, state) => {
-  const from = state[fromContainerIndex];
-  const to = state[toContainerIndex];
+  const containerFrom = state[fromContainerIndex];
+  const containerTo = state[toContainerIndex];
 
-  let emptySlots = 4 - to.length;
+  // Calculate the empty slots at the top of the to container
+  let emptySlots = 4 - containerTo.length;
 
   let canPour = 1;
 
   // Calculate the number of colors that are the same from the top of the container
-  for (let i = from.length - 2; i >= 0; i--) {
-    if (from[i] === from[from.length - 1]) {
+  for (let i = containerFrom.length - 2; i >= 0; i--) {
+    if (containerFrom[i] === containerFrom[containerFrom.length - 1]) {
       canPour++;
     } else {
       break;
@@ -55,20 +95,23 @@ const resultingStateNode = (fromContainerIndex, toContainerIndex, state) => {
   const amountToPour = emptySlots >= canPour ? canPour : emptySlots;
 
   // Remove the number of amountToPour from the from container
-  const newFrom = from.slice(0, from.length - amountToPour);
-  const newTo = [...to];
+  const newContainerFrom = containerFrom.slice(
+    0,
+    containerFrom.length - amountToPour
+  );
+  const newContainerTo = [...containerTo];
 
   // Insert the number of amountToPOur colors to the to container
   for (let i = 0; i < amountToPour; i++) {
-    newTo.push(from[from.length - 1]);
+    newContainerTo.push(containerFrom[containerFrom.length - 1]);
   }
 
   const newState = [...state];
 
-  newState[fromContainerIndex] = newFrom;
-  newState[toContainerIndex] = newTo;
+  newState[fromContainerIndex] = newContainerFrom;
+  newState[toContainerIndex] = newContainerTo;
 
-  return new StateNode(newState, state);
+  return new StateNode(newState, new StateNode(state));
 };
 
 export const validNextStateNodes = (stateNode) => {
@@ -77,16 +120,13 @@ export const validNextStateNodes = (stateNode) => {
   const { state } = stateNode;
 
   for (let i = 0; i < state.length; i++) {
-    // Check if it is possible to pour into another container
+    // Check each container against every other containers
     for (let j = 0; j < state.length; j++) {
-      // If we are comparing to a different container
+      // If we are comparing to a different container, proceed
       if (i !== j) {
-        // If the other container is not full
-        if (state[j].length < 4) {
-          // Compare the top colors of current container and the other container
-          if (allowedToPour(state[i], state[j])) {
-            nextPossibleStates.push(resultingStateNode(i, j, state));
-          }
+        // If current container can pour into the other container, generate the resulting state
+        if (allowedToPour(state[i], state[j])) {
+          nextPossibleStates.push(resultingStateNode(i, j, state));
         }
       }
     }
@@ -95,79 +135,28 @@ export const validNextStateNodes = (stateNode) => {
   return nextPossibleStates;
 };
 
-const sameContainer = (container1, container2) => {
-  if (container1.length !== container2.length) {
-    return false;
+// Generates a path from the starting node to the goal node
+export const generatePath = (goalNode, exploredMap) => {
+  const path = [goalNode.state];
+
+  let currentNode = goalNode;
+
+  // While current node's parent node is a valid node
+  // AND current node's parent node is in explored
+  while (
+    currentNode.parentNode &&
+    exploredMap.has(currentNode.parentNode.hashCode)
+  ) {
+    // Get the parent node and remove it from explored
+    let parentNode = exploredMap.get(currentNode.parentNode.hashCode);
+    exploredMap.delete(parentNode.hashCode);
+
+    // Add it to the front of the path
+    path.unshift(parentNode.state);
+
+    // Set the current node to the parent node
+    currentNode = parentNode;
   }
 
-  for (let i = 0; i < container1.length; i++) {
-    if (container1[i] !== container2[i]) {
-      return false;
-    }
-  }
-
-  return true;
-};
-
-const sameState = (state1, state2) => {
-  for (let i = 0; i < state1.length; i++) {
-    if (!sameContainer(state1[i], state2[i])) {
-      return false;
-    }
-  }
-
-  return true;
-};
-
-export const containsStateNode = (stateNodes, stateNode) => {
-  for (let i = 0; i < stateNodes.length; i++) {
-    if (sameState(stateNodes[i].state, stateNode.state)) {
-      return true;
-    }
-  }
-
-  return false;
-};
-
-export const validatePath = (path) => {
-  // console.log('validating...', path.length);
-
-  if (path.length === 1) {
-    return path;
-  }
-
-  const parentState = path[path.length - 1].parent;
-
-  let parentIndex;
-  for (parentIndex = path.length - 2; parentIndex >= 0; parentIndex--) {
-    if (sameState(path[parentIndex].state, parentState)) {
-      break;
-    }
-  }
-
-  // console.log('parent index', parentIndex);
-
-  return [...path.slice(0, parentIndex + 1), path[path.length - 1]];
-};
-
-export const generatePath = (explored, startIndex) => {
-  if (startIndex <= 0) {
-    return explored;
-  }
-
-  let originalLength = explored.length;
-  const unvalidated = explored.slice(0, startIndex + 1);
-  const validated =
-    startIndex + 1 === explored.length
-      ? []
-      : explored.slice(startIndex - explored.length);
-
-  const path = validatePath(unvalidated);
-
-  const newExplored = [...path, ...validated];
-
-  return generatePath(
-    newExplored,
-    startIndex - 1 - (originalLength - newExplored.length)
-  );
+  return path;
 };

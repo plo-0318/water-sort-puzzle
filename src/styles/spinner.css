@@ -1,0 +1,122 @@
+.spinner {
+  --spinner-color: #3bc9db;
+  --spinner-width: 5rem;
+  --spinner-circle-size: 4px;
+  --spinner-rotation: 0;
+
+  --spinner_checkmark-height: 25%;
+  --spinner_checkmark-width: 50%;
+  --spinner_checkmark-border-color: #eee;
+
+  position: relative;
+
+  aspect-ratio: 1 / 1;
+
+  width: var(--spinner-width);
+
+  border-radius: 50%;
+  border: var(--spinner-circle-size) solid var(--spinner-color);
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+}
+
+.spinner_complete {
+  animation: spinnerComplete 1s linear forwards;
+}
+
+.spinner_spin {
+  animation: spinnerSpin 1s linear forwards;
+  animation-iteration-count: infinite;
+}
+
+.spinner_fill {
+  animation: spinnerFill 0.75s ease-out forwards;
+}
+
+@keyframes spinnerSpin {
+  from {
+    transform: rotate(0);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinnerComplete {
+  0% {
+    transform: rotate(var(--spinner-rotation));
+
+    border: var(--spinner-circle-size) solid var(--spinner-color);
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+  }
+
+  90% {
+    transform: rotate(360deg);
+
+    border: var(--spinner-circle-size) solid var(--spinner-color);
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+  }
+
+  100% {
+    transform: rotate(360deg);
+
+    border: var(--spinner-circle-size) solid var(--spinner-color);
+    border-color: var(--spinner-color);
+  }
+}
+
+@keyframes spinnerFill {
+  from {
+    box-shadow: inset 0 0 0 var(--spinner-color);
+    border: var(--spinner-circle-size) solid var(--spinner-color);
+  }
+
+  to {
+    box-shadow: inset 0 0 calc(var(--spinner-width) * 2) var(--spinner-color);
+    border: var(--spinner-circle-size) solid var(--spinner-color);
+  }
+}
+
+.spinner_checkmark {
+  position: absolute;
+  top: 50%;
+  left: 25%;
+
+  display: block;
+  width: var(--spinner_checkmark-width);
+  height: var(--spinner_checkmark-height);
+
+  border-left: var(--spinner-circle-size) solid
+    var(--spinner_checkmark-border-color);
+  border-bottom: var(--spinner-circle-size) solid
+    var(--spinner_checkmark-border-color);
+
+  transform-origin: left top;
+  transform: translateY(calc(var(--spinner-circle-size) / 2)) rotate(-45deg);
+
+  opacity: 0;
+  animation: checkCheckmark linear both 0.3s;
+}
+
+@keyframes checkCheckmark {
+  0% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+
+  50% {
+    width: 0;
+    height: var(--spinner_checkmark-height);
+    opacity: 1;
+  }
+
+  100% {
+    width: var(--spinner_checkmark-width);
+    height: var(--spinner_checkmark-height);
+    opacity: 1;
+  }
+}

@@ -1,7 +1,13 @@
 import { gameState } from '../models/gameState.js';
 import { renderGame } from '../game.js';
-import { showRestartModal } from './modalController.js';
-import { showSettingsModal } from './settingsModalController.js';
+
+import { search } from '../search/search.js';
+import { Dfs } from '../search/dfs.js';
+import { Bfs } from '../search/bfs.js';
+
+import ModalRestart from '../views/modals/modalRestart.js';
+import ModalAI from '../views/modals/modalAi.js';
+import ModalGameSettings from '../views/modals/modalGameSettings.js';
 
 const menuContainer = document.querySelector('.menu-items-container');
 
@@ -11,6 +17,10 @@ const hintBtn = document.getElementById('btn-hint');
 const aiBtn = document.getElementById('btn-ai');
 const settingBtn = document.getElementById('btn-setting');
 const menuBtns = [restartBtn, rewindBtn, hintBtn, aiBtn, settingBtn];
+
+let restartModal = new ModalRestart(gameState);
+let gameSettingsModal = new ModalGameSettings(gameState);
+let aiModal = new ModalAI(gameState);
 
 export const disableMenuBtns = () => {
   menuBtns.forEach((btn) => {
@@ -35,7 +45,7 @@ menuContainer.addEventListener('click', (e) => {
 });
 
 restartBtn.addEventListener('click', () => {
-  showRestartModal();
+  restartModal.show();
 });
 
 rewindBtn.addEventListener('click', () => {
@@ -46,6 +56,14 @@ rewindBtn.addEventListener('click', () => {
   }
 });
 
+hintBtn.addEventListener('click', () => {
+  aiModal.show();
+
+  search(new Bfs(gameState.currentState()), (data) => {
+    aiModal.finish(data);
+  });
+});
+
 settingBtn.addEventListener('click', () => {
-  showSettingsModal();
+  gameSettingsModal.show();
 });

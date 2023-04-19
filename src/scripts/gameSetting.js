@@ -8,6 +8,21 @@ export const setAnimationSpeed = (speed) => {
   }
 
   animationSpeed = speed;
+
+  document.documentElement.style.setProperty(
+    '--water-container-animation-speed',
+    `${animationSpeed}`
+  );
+};
+
+export let algorithm = 'bfs';
+
+export const setAlgorithm = (newAlgorithm) => {
+  if (newAlgorithm !== 'dfs' || newAlgorithm !== 'bfs') {
+    return;
+  }
+
+  algorithm = newAlgorithm;
 };
 
 export let currentOpenedModal = [];

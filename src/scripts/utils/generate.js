@@ -1,6 +1,6 @@
 'use strict';
 
-import Confetti from '../models/confetti.js';
+import Confetti from '../views/confetti.js';
 
 export const generateWater = (color) => {
   const waterEl = document.createElement('div');

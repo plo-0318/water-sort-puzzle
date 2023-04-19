@@ -1,0 +1,10 @@
+.height-transition-wrapper {
+  display: grid;
+  overflow-y: hidden;
+
+  transition: height 0.35s ease-out;
+}
+
+.disable_click {
+  pointer-events: none;
+}

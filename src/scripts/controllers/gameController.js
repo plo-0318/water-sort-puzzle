@@ -1,17 +1,17 @@
 'use strict';
 
-import { modalSetting, animationSpeed } from '../gameSetting.js';
+import { animationSpeed } from '../gameSetting.js';
 import { gameState } from '../models/gameState.js';
-import Confetti from '../models/confetti.js';
+import Confetti from '../views/confetti.js';
 import {
   generateWater,
   generateConfetti,
   generateWaterStream,
 } from '../utils/generate.js';
 import { getWaterEls, fullAndSameColor } from '../utils/util.js';
+import ModalGameEnd from '../views/modals/modalGameEnd.js';
 
 import { startNewGame } from '../game.js';
-import { showGameEndModal } from './modalController.js';
 import { disableMenuBtns, enableMenuBtns } from './menuController.js';
 
 const waterStreamAnimationDuration = () => {
@@ -297,6 +297,8 @@ const handleGameEnd = () => {
       startNewGame(gameState.difficulty);
     };
 
-    showGameEndModal(modalSetting.gameWonWithHint, onModalBtnClick);
+    const gameEndModal = new ModalGameEnd(gameState, onModalBtnClick);
+
+    gameEndModal.show();
   }, 500);
 };

@@ -9,11 +9,14 @@
     <link href="./src/styles/confetti.css" rel="stylesheet" />
     <link href="./src/styles/modals.css" rel="stylesheet" />
     <link href="./src/styles/menu.css" rel="stylesheet" />
+    <link href="./src/styles/spinner.css" rel="stylesheet" />
+    <link href="./src/styles/util.css" rel="stylesheet" />
     <script defer type="module" src="./src/scripts/game.js"></script>
   </head>
   <body>
     <div class="modal-backdrop content-hide"></div>
 
+    <!-- GAME END MODAL -->
     <div class="modal modal-game-end content-hide">
       <p class="modal-title-text game-end-modal-title-text">AI Won</p>
       <p class="modal-content-text">
@@ -77,6 +80,7 @@
       </div>
     </div>
 
+    <!-- GAME RESTART CONFIRMATION MODAL -->
     <div class="modal modal-restart content-hide">
       <p class="modal-title-text restart-modal-title-text">Restart</p>
       <p class="modal-content-text">
@@ -93,6 +97,7 @@
       </div>
     </div>
 
+    <!-- GAME SETTINGS MODAL -->
     <div class="modal modal-settings content-hide">
       <div id="btn-close-settings" class="modal-settings-close-icon-wrapper">
         <svg
@@ -114,13 +119,13 @@
       <div class="setting-container">
         <p class="setting-container-title-text">Difficulty</p>
         <div class="setting-options-container">
-          <div
-            id="btn-difficulty-easy"
-            class="setting-option setting-option__selected"
-          >
+          <div id="btn-difficulty-easy" class="setting-option">
             <p class="setting-option-text">Easy</p>
           </div>
-          <div id="btn-difficulty-medium" class="setting-option">
+          <div
+            id="btn-difficulty-medium"
+            class="setting-option setting-option__selected"
+          >
             <p class="setting-option-text">Medium</p>
           </div>
           <div id="btn-difficulty-hard" class="setting-option">
@@ -171,6 +176,7 @@
       </div>
     </div>
 
+    <!-- SWITCH DIFFICULTY CONFIRMATION MODAL -->
     <div class="modal modal-switch-difficulty content-hide">
       <p class="modal-title-text restart-modal-title-text">Switch Difficulty</p>
       <p class="modal-content-text">
@@ -190,6 +196,23 @@
           Cancel
         </button>
       </div>
+    </div>
+
+    <!-- AI MODAL -->
+    <div class="modal modal-ai content-hide">
+      <!-- <p class="modal-title-text ai-modal-title-text">Calculating</p>
+      <p class="modal-content-text">
+        Are you sure you want to restart the game?
+      </p>
+      <p class="modal-content-text">This action is irreversible</p>
+      <div class="modal-btns-container">
+        <button id="btn-cancel-ai" class="modal-btn modal-btn-restart">
+          Cancel
+        </button>
+        <button id="btn-confirm-ai" class="modal-btn modal-btn-confirm__ai">
+          Confirm
+        </button>
+      </div> -->
     </div>
 
     <div class="background"></div>
