@@ -63,6 +63,9 @@ export class Dfs {
       // Expand the node --> Generate the valid next states
       const nextStateNodes = validNextStateNodes(currentStateNode);
 
+      // Increment the states generated
+      statesGenerated += nextStateNodes.length;
+
       // For every next valid state nodes
       nextStateNodes.forEach((nextStateNode) => {
         // Push the resulting node to the fonrtier only if it is not already on frontier or explored
@@ -72,9 +75,6 @@ export class Dfs {
         ) {
           this.frontier.push(nextStateNode);
           this.frontierMap.set(nextStateNode.hashCode, nextStateNode);
-
-          // Increment the states generated counter
-          statesGenerated++;
         }
       });
     }

@@ -1,5 +1,7 @@
 'use strict';
 
+import { gameState } from './models/gameState.js';
+
 export let animationSpeed = 1;
 
 export const setAnimationSpeed = (speed) => {
@@ -18,15 +20,16 @@ export const setAnimationSpeed = (speed) => {
 export let algorithm = 'bfs';
 
 export const setAlgorithm = (newAlgorithm) => {
-  if (newAlgorithm !== 'dfs' || newAlgorithm !== 'bfs') {
+  if (newAlgorithm !== 'dfs' && newAlgorithm !== 'bfs') {
     return;
+  }
+
+  if (algorithm !== newAlgorithm) {
+    gameState.setSearchResult(null);
   }
 
   algorithm = newAlgorithm;
 };
-
-export let currentOpenedModal = [];
-export let modalsAllowedToCloseFromBackdrop = [];
 
 export const colors = {
   red: '#e03131',

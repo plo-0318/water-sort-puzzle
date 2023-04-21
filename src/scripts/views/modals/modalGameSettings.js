@@ -1,5 +1,10 @@
 import Modal from './modal.js';
-import { animationSpeed, setAnimationSpeed } from '../../gameSetting.js';
+import {
+  animationSpeed,
+  setAnimationSpeed,
+  algorithm,
+  setAlgorithm,
+} from '../../gameSetting.js';
 import { closeIcon, normalAnimationIcon, fastAnimationIcon } from '../icons.js';
 import { startNewGame } from '../../game.js';
 
@@ -23,6 +28,9 @@ class ModalGameSettings extends Modal {
 
     this.normalAnimationBtn = null;
     this.fastAnimationBtn = null;
+
+    this.dfsBtn = null;
+    this.bfsBtn = null;
 
     this.selectedDifficulty = {};
 
@@ -79,6 +87,26 @@ class ModalGameSettings extends Modal {
       this._selectOption(this.fastAnimationBtn);
       setAnimationSpeed(2);
     };
+
+    this.dfsBtnClickHandler = () => {
+      if (this.dfsBtn.classList.contains('setting-option__selected')) {
+        return;
+      }
+
+      this._unselectOptions(this.bfsBtn);
+      this._selectOption(this.dfsBtn);
+      setAlgorithm('dfs');
+    };
+
+    this.bfsBtnClickHandler = () => {
+      if (this.bfsBtn.classList.contains('setting-option__selected')) {
+        return;
+      }
+
+      this._unselectOptions(this.dfsBtn);
+      this._selectOption(this.bfsBtn);
+      setAlgorithm('bfs');
+    };
   }
 
   // Get the difficulty button corresponding to the current game difficulty
@@ -99,6 +127,11 @@ class ModalGameSettings extends Modal {
     return animationSpeed === 1
       ? this.normalAnimationBtn
       : this.fastAnimationBtn;
+  }
+
+  // Get the algorithm button corresponding to the current game algorithm
+  _getAlgorithmBtn() {
+    return algorithm === 'bfs' ? this.bfsBtn : this.dfsBtn;
   }
 
   // Select an option
@@ -226,6 +259,24 @@ class ModalGameSettings extends Modal {
     );
   }
 
+  _createAlgorithmContainer() {
+    const dfsText = document.createElement('p');
+    dfsText.textContent = 'DFS';
+    dfsText.classList.add('setting-option-text');
+
+    const bfsText = document.createElement('p');
+    bfsText.textContent = 'BFS';
+    bfsText.classList.add('setting-option-text');
+
+    this.dfsBtn = this._createOption(dfsText, this.dfsBtnClickHandler);
+    this.bfsBtn = this._createOption(bfsText, this.bfsBtnClickHandler);
+
+    return this._createSettingContainer(
+      'Algorithm',
+      this._createOptionsContainer(this.dfsBtn, this.bfsBtn)
+    );
+  }
+
   _createSwitchDifficultyModal() {
     const modal = document.createElement('div');
     modal.classList.add('modal');
@@ -301,9 +352,11 @@ class ModalGameSettings extends Modal {
 
     this.modalEl.appendChild(this._createDifficultyContainer());
     this.modalEl.appendChild(this._createAnimationContainer());
+    this.modalEl.appendChild(this._createAlgorithmContainer());
 
     this._selectOption(this._getDifficultyBtn());
     this._selectOption(this._getAnimationBtn());
+    this._selectOption(this._getAlgorithmBtn());
 
     document.body.appendChild(this.modalEl);
   }

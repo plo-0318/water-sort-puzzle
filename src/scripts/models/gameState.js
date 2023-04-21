@@ -1,6 +1,6 @@
 'use strict';
 
-import { getColors, validEndState } from '../utils/util.js';
+import { getColors, validEndState, deepCompareArrays } from '../utils/util.js';
 
 class GameState {
   constructor() {
@@ -12,6 +12,9 @@ class GameState {
     this.undos = 0;
     this.hints = 0;
     this.ai = false;
+
+    this.hintStates = [];
+    this.searchResult = null;
 
     this.difficulty = 'easy';
   }
@@ -25,6 +28,14 @@ class GameState {
     this.undos = 0;
     this.hints = 0;
     this.ai = false;
+
+    this.hintStates = [];
+    this.searchResult = null;
+  }
+
+  setSearchResult(result) {
+    this.searchResult = result;
+    this.hintStates = [];
   }
 
   addWaterContainers(waterContainers) {
@@ -86,6 +97,24 @@ class GameState {
     this.gameEnded = true;
 
     return true;
+  }
+
+  // If the user press hints at the same state multiple times, don't increment the hints count
+  incrementHints() {
+    // User has requested hints before
+    if (this.hintStates.length > 0) {
+      // User has requested hint for this state previously
+      if (
+        this.hintStates.some((state) =>
+          deepCompareArrays(state, this.currentState())
+        )
+      ) {
+        return;
+      }
+    }
+
+    this.hints++;
+    this.hintStates.push(this.currentState());
   }
 }
 

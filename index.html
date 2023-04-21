@@ -14,10 +14,10 @@
     <script defer type="module" src="./src/scripts/game.js"></script>
   </head>
   <body>
-    <div class="modal-backdrop content-hide"></div>
+    <!-- <div class="modal-backdrop content-hide"></div> -->
 
     <!-- GAME END MODAL -->
-    <div class="modal modal-game-end content-hide">
+    <!-- <div class="modal modal-game-end content-hide">
       <p class="modal-title-text game-end-modal-title-text">AI Won</p>
       <p class="modal-content-text">
         The AI completed the game without any hints!
@@ -78,10 +78,10 @@
       <div class="modal-btns-container">
         <button class="modal-btn">Play Again</button>
       </div>
-    </div>
+    </div> -->
 
     <!-- GAME RESTART CONFIRMATION MODAL -->
-    <div class="modal modal-restart content-hide">
+    <!-- <div class="modal modal-restart content-hide">
       <p class="modal-title-text restart-modal-title-text">Restart</p>
       <p class="modal-content-text">
         Are you sure you want to restart the game?
@@ -95,10 +95,10 @@
           Cancel
         </button>
       </div>
-    </div>
+    </div> -->
 
     <!-- GAME SETTINGS MODAL -->
-    <div class="modal modal-settings content-hide">
+    <!-- <div class="modal modal-settings content-hide">
       <div id="btn-close-settings" class="modal-settings-close-icon-wrapper">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -174,10 +174,10 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- SWITCH DIFFICULTY CONFIRMATION MODAL -->
-    <div class="modal modal-switch-difficulty content-hide">
+    <!-- <div class="modal modal-switch-difficulty content-hide">
       <p class="modal-title-text restart-modal-title-text">Switch Difficulty</p>
       <p class="modal-content-text">
         Are you sure you want to switch difficulty?
@@ -196,11 +196,11 @@
           Cancel
         </button>
       </div>
-    </div>
+    </div> -->
 
     <!-- AI MODAL -->
-    <div class="modal modal-ai content-hide">
-      <!-- <p class="modal-title-text ai-modal-title-text">Calculating</p>
+    <!-- <div class="modal modal-ai content-hide">
+      <p class="modal-title-text ai-modal-title-text">Calculating</p>
       <p class="modal-content-text">
         Are you sure you want to restart the game?
       </p>
@@ -212,13 +212,28 @@
         <button id="btn-confirm-ai" class="modal-btn modal-btn-confirm__ai">
           Confirm
         </button>
-      </div> -->
-    </div>
+      </div>
+    </div> -->
 
     <div class="background"></div>
 
     <menu>
       <ul class="menu-items-container">
+        <li id="btn-new_game" class="menu-item-container">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            class="icon"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 4.5v15m7.5-7.5h-15"
+            />
+          </svg>
+        </li>
         <li id="btn-restart" class="menu-item-container">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -303,7 +318,7 @@
     </menu>
 
     <main class="game_area-container">
-      <!-- <div class="row-container">
+      <div class="row-container">
         <div class="water-container">
           <div class="water"></div>
         </div>
@@ -333,7 +348,7 @@
         <div class="water-container">
           <div class="water"></div>
         </div>
-      </div> -->
+      </div>
     </main>
   </body>
 </html>

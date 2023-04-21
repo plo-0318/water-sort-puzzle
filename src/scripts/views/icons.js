@@ -197,3 +197,37 @@ export const timeIcon = () => {
 
   return svgEl;
 };
+
+export const indicatorFromIcon = () => {
+  const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svgEl.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  svgEl.setAttribute('fill', 'none');
+  svgEl.setAttribute('viewBox', '0 0 24 24');
+  svgEl.setAttribute('class', 'water-container-indicator');
+
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('stroke-linecap', 'round');
+  path.setAttribute('stroke-linejoin', 'round');
+  path.setAttribute('d', 'M12 19.5v-15m0 0l-6.75 6.75M12 4.5l6.75 6.75');
+
+  svgEl.appendChild(path);
+
+  return svgEl;
+};
+
+export const indicatorToIcon = () => {
+  const svgEl = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svgEl.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  svgEl.setAttribute('fill', 'none');
+  svgEl.setAttribute('viewBox', '0 0 24 24');
+  svgEl.classList.add('water-container-indicator');
+
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('stroke-linecap', 'round');
+  path.setAttribute('stroke-linejoin', 'round');
+  path.setAttribute('d', 'M12 4.5v15m0 0l6.75-6.75M12 19.5l-6.75-6.75');
+
+  svgEl.appendChild(path);
+
+  return svgEl;
+};

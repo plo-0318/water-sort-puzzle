@@ -83,6 +83,30 @@ const validContainerEndState = (colors) => {
 export const validEndState = (state) =>
   !state.some((s) => !validContainerEndState(s));
 
+export const deepCompareArrays = (arr1, arr2) => {
+  // If the arrays have different lengths, they are not equal
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+
+  // Iterate over the arrays and compare each element
+  for (let i = 0; i < arr1.length; i++) {
+    // If the current element is an array, recursively call the function
+    if (Array.isArray(arr1[i]) && Array.isArray(arr2[i])) {
+      if (!deepCompareArrays(arr1[i], arr2[i])) {
+        return false;
+      }
+    }
+    // Otherwise, compare the elements
+    else if (arr1[i] !== arr2[i]) {
+      return false;
+    }
+  }
+
+  // If haven't returned false by this point, the arrays are equal
+  return true;
+};
+
 // let map = new Map();
 // map.set('#e03131', 'red');
 // map.set('#1c7ed6', 'blue');

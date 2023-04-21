@@ -4,6 +4,7 @@
   water container: 2
   water container move: 4
   water fill: 4 
+  water container indicator: 5
   */
 
 :root {
@@ -22,6 +23,8 @@
   --water-container-vgap: 9.6rem;
 
   --water-container-hover-height: -3.6rem;
+
+  --indicator-width: 3.2rem;
 
   --red: #e03131;
   --pink: #f783ac;
@@ -97,10 +100,15 @@ html {
   --move-x: 0;
   --move-y: 0;
   --rotate: 0;
+
+  transition: all 0.3s;
 }
 
 .water-container:hover {
   cursor: pointer;
+  border: var(--water-container-border-width) solid #fff;
+
+  box-shadow: 0 0 5px 3px rgba(255, 255, 255, 0.5);
 }
 
 .water-container__hover {
@@ -230,11 +238,7 @@ html {
   );
   width: calc(var(--water-stream-container-width) / 5);
 
-  transform: translate(
-      calc(var(--water-stream-container-width) / 2 - 50%),
-      -100%
-    )
-    scaleY(1);
+  transform: translate(-50%, -100%) scaleY(1);
 
   transform-origin: top center;
 
@@ -248,11 +252,71 @@ html {
 
 @keyframes waterStreamFall {
   from {
-    transform: translate(calc(var(--water-stream-container-width) / 2), -100%)
-      scaleY(0);
+    transform: translate(-50%, -100%) scaleY(0);
   }
   to {
-    transform: translate(calc(var(--water-stream-container-width) / 2), -100%)
-      scaleY(1);
+    transform: translate(-50%, -100%) scaleY(1);
+  }
+}
+
+.water-container-indicator {
+  position: fixed;
+
+  width: var(--indicator-width);
+
+  z-index: 5;
+
+  stroke: #cc5de8;
+  stroke-width: 3;
+
+  transform: translate(-50%, -150%);
+}
+
+.water-container-indicator__show {
+  animation: indicatorShow 0.5s ease-out forwards;
+}
+
+.water-container-indicator__blink {
+  animation: indicatorBlink 1.25s linear forwards infinite;
+}
+
+.water-container-indicator__remove {
+  animation: indicatorRemove 0.5s ease-in forwards;
+}
+
+@keyframes indicatorShow {
+  from {
+    transform: translate(-50%, -150%) scale(0);
+  }
+
+  to {
+    transform: translate(-50%, -150%) scale(1);
+  }
+}
+
+@keyframes indicatorBlink {
+  0% {
+    stroke: #cc5de8;
+    transform: translate(-50%, -150%) scale(1);
+  }
+
+  50% {
+    stroke: #da77f2;
+    transform: translate(-50%, -150%) scale(1.1);
+  }
+
+  100% {
+    stroke: #cc5de8;
+    transform: translate(-50%, -150%) scale(1);
+  }
+}
+
+@keyframes indicatorRemove {
+  from {
+    transform: translate(-50%, -150%) scale(1);
+  }
+
+  to {
+    transform: translate(-50%, -150%) scale(0);
   }
 }

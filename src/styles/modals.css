@@ -152,6 +152,8 @@
   font-size: var(--modal-content-text-font-size);
   font-weight: var(--modal-content-text-font-weight);
   color: #dfdfdf;
+
+  text-align: center;
 }
 
 .game-end-stats-container {
@@ -455,6 +457,7 @@
 
 .modal-btn-confirm__ai {
   background-color: var(--ai-modal-color);
+  color: #2e2e2e;
 }
 
 .modal-btn-confirm__ai:hover {

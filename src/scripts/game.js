@@ -22,6 +22,8 @@ import { Bfs } from './search/bfs.js';
 import { StateNode } from './search/searchUtil.js';
 import { search, cancelSearch } from './search/search.js';
 import ModalAI from './views/modals/modalAi.js';
+import { generateIndicators, generateWaterStream } from './utils/generate.js';
+import { aiPourWater } from './controllers/gameController.js';
 
 let gameAreaEl = null;
 
@@ -79,9 +81,14 @@ export const startNewGame = (difficulty, _gameState = null) => {
 };
 
 initGame();
-console.log(startNewGame('medium'));
+console.log(startNewGame('easy'));
 
 // const ws = document.querySelectorAll('.water-container');
+// setTimeout(() => {
+//   aiPourWater(ws[0], ws[3]);
+// }, 3000);
+// generateIndicators(ws[0], ws[1]);
+// generateWaterStream(ws[0], '#ae3ec9');
 
 // const water = ws[0].querySelector('.water');
 
@@ -90,7 +97,7 @@ console.log(startNewGame('medium'));
 // console.log(rect.bottom);
 // console.log(window.innerHeight);
 
-//TODO: add settings menu -->  ai
+//TODO: fix increment hints, remove indicator when starting to pour?
 
 // const from = ['#1c7ed6', '#e03131', '#ae3ec9', '#e03131'];
 // const to = ['#1c7ed6', '#ae3ec9', '#e03131'];
@@ -183,28 +190,6 @@ const bfs = new Bfs(state9);
 
 // console.log(dfs.search());
 // console.log(bfs.search());
-
-// setTimeout(() => {
-//   console.log('start search...');
-//   search(new Bfs(state7), (result) => {
-//     console.log(result);
-//   });
-// }, 3000);
-
-// const m = new ModalAI();
-// m.show();
-
-// const lol = {
-//   foundSolution: true,
-//   statesGenerated: 12345,
-//   statesSearched: 2357,
-//   path: [1, 2, 3, 4, 5, 6, 7, 8],
-//   time: 300,
-// };
-
-// setTimeout(() => {
-//   m.finish(lol);
-// }, 1500);
 
 const s1 = new StateNode(state1);
 const s2 = new StateNode(state2, s1);

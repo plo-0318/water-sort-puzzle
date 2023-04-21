@@ -1,6 +1,7 @@
 'use strict';
 
-import { validEndState } from '../utils/util.js';
+import { gameState } from '../models/gameState.js';
+import { validEndState, deepCompareArrays } from '../utils/util.js';
 
 /* 
 bottom of container --> top of container
@@ -159,4 +160,56 @@ export const generatePath = (goalNode, exploredMap) => {
   }
 
   return path;
+};
+
+// Using the result path, determine the from container and to container
+// Return the from container element and the to container element in the DOM
+export const getContainersFromPath = (path, currentStateIndex = 0) => {
+  // Not a valid path
+  if (currentStateIndex + 1 >= path.length) {
+    return null;
+  }
+
+  const currentState = path[currentStateIndex];
+  const nextState = path[currentStateIndex + 1];
+
+  let fromContainerIndex, toContainerIndex;
+
+  // If both containers have the same size --> return 0
+  // If container1 contains less colors return -1
+  // If container1 contains more colors return 1
+  const compareContainers = (container1, container2) => {
+    if (container1.length < container2.length) {
+      return -1;
+    }
+
+    if (container1.length > container2.length) {
+      return 1;
+    }
+
+    return 0;
+  };
+
+  for (let i = 0; i < currentState.length; i++) {
+    const result = compareContainers(currentState[i], nextState[i]);
+
+    // If the container from this state has more water than the container from next state
+    // Then it is the pouring container
+    // If the container from this state has less water than the container from next state
+    // then it is the receiving container
+    if (result > 0) {
+      fromContainerIndex = i;
+    } else if (result < 0) {
+      toContainerIndex = i;
+    }
+  }
+
+  const containerEls = gameState.waterContainerEls;
+
+  return [containerEls[fromContainerIndex], containerEls[toContainerIndex]];
+};
+
+// Find the index of the state in the path if it exists
+export const stateAt = (state, path) => {
+  return path.findIndex((s) => deepCompareArrays(state, s));
 };

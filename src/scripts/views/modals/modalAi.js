@@ -18,6 +18,7 @@ class ModalAI extends Modal {
 
     this.cancelBtnClickHandler = () => {
       cancelSearch();
+      this.gameState.hints--;
       this.hide();
     };
 
@@ -83,15 +84,15 @@ class ModalAI extends Modal {
       this._createStatContainer(
         statesGeneratedIcon(),
         'States Generated:',
-        data.statesGenerated
+        new Intl.NumberFormat('en-US').format(data.statesGenerated)
       )
     );
 
     statsContainer.appendChild(
       this._createStatContainer(
         statesSearchedIcon(),
-        'States Searched:',
-        data.statesSearched
+        'States Expanded:',
+        new Intl.NumberFormat('en-US').format(data.statesSearched)
       )
     );
 
@@ -100,12 +101,16 @@ class ModalAI extends Modal {
         this._createStatContainer(
           pathIcon(),
           'Steps to Goal:',
-          data.path.length
+          new Intl.NumberFormat('en-US').format(data.path.length - 1)
         )
       );
 
     statsContainer.appendChild(
-      this._createStatContainer(timeIcon(), 'Time:', `${data.time} ms`)
+      this._createStatContainer(
+        timeIcon(),
+        'Time:',
+        `${new Intl.NumberFormat('en-US').format(data.time)} ms`
+      )
     );
 
     return statsContainer;
@@ -131,6 +136,25 @@ class ModalAI extends Modal {
     statContainer.appendChild(valueEl);
 
     return statContainer;
+  }
+
+  _createHintsBtnContainer(data) {
+    // Create the confirm button click handler
+    const onContinueClick = () => {
+      data.onContinue && data.onContinue();
+      this.hide();
+    };
+
+    // Create and add the continue button
+    this.btnsContainerWrapper.remove();
+    this.btnsContainerEl = this._createBtnsContainer(
+      this._createBtn(
+        'Continue',
+        onContinueClick,
+        null,
+        'modal-btn-confirm__ai'
+      )
+    );
   }
 
   _showResult(data) {
@@ -161,21 +185,7 @@ class ModalAI extends Modal {
       // Add the stats
       this.modalEl.appendChild(this._createStatsContainer(data));
 
-      // Create the confirm button click handler
-      const onContinueClick = () => {
-        this.hide();
-      };
-
-      // Create and add the continue button
-      this.btnsContainerWrapper.remove();
-      this.btnsContainerEl = this._createBtnsContainer(
-        this._createBtn(
-          'Continue',
-          onContinueClick,
-          null,
-          'modal-btn-confirm__ai'
-        )
-      );
+      this._createHintsBtnContainer(data);
 
       this.modalEl.appendChild(this.btnsContainerEl);
 
@@ -184,7 +194,7 @@ class ModalAI extends Modal {
     }, 50);
   }
 
-  finish(data) {
+  finish(data, showResult = true) {
     this.btnsContainerWrapper.classList.add('disable_click');
 
     this.btnsContainerWrapper.style.height = `${
@@ -195,7 +205,14 @@ class ModalAI extends Modal {
       this.btnsContainerWrapper.style.height = '0px';
     }, 100);
 
-    this.spinner.finish(this._showResult.bind(this, data), 500);
+    if (showResult) {
+      this.spinner.finish(this._showResult.bind(this, data), 500);
+    } else {
+      this.spinner.finish(() => {
+        data.onContinue();
+        this.hide();
+      }, 500);
+    }
   }
 
   hide() {

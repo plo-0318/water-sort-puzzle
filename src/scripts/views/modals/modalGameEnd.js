@@ -68,7 +68,7 @@ class ModalGameEnd extends Modal {
       this._createStatContainer(undosIcon(), 'Undos:', this.gameState.undos)
     );
     statsContainer.appendChild(
-      this._createStatContainer(hintsIcon(), 'Hints:', this.gameState.undos)
+      this._createStatContainer(hintsIcon(), 'Hints:', this.gameState.hints)
     );
 
     return statsContainer;
@@ -103,7 +103,8 @@ class ModalGameEnd extends Modal {
       this._createTitleText(option.title, 'game-end-modal-title-text')
     );
     this.modalEl.appendChild(this._createContentText(option.content));
-    this.modalEl.appendChild(this._createStatsContainer());
+    !this.gameState.ai &&
+      this.modalEl.appendChild(this._createStatsContainer());
 
     const playAgainBtn = this._createBtn('Play Again', () => {
       this.onModalConfirm();

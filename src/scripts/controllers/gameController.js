@@ -7,6 +7,7 @@ import {
   generateWater,
   generateConfetti,
   generateWaterStream,
+  clearIndicators,
 } from '../utils/generate.js';
 import { getWaterEls, fullAndSameColor } from '../utils/util.js';
 import ModalGameEnd from '../views/modals/modalGameEnd.js';
@@ -25,6 +26,8 @@ let toContainer = null;
 let waterStreamEl = null;
 let pourWaterDelayTimeout = null;
 
+let aiPourWaterCallback = null;
+
 export const resetGameControllerState = () => {
   animationPlaying = false;
   currentWaterContainer = null;
@@ -33,6 +36,8 @@ export const resetGameControllerState = () => {
   waterStreamEl = null;
 
   pourWaterDelayTimeout && clearTimeout(pourWaterDelayTimeout);
+
+  aiPourWaterCallback = null;
 };
 
 const waterContainerAnimations = [
@@ -49,7 +54,7 @@ const removeAllAnimations = (el, animations) => {
 // Water container CLICK event listener
 export const addWaterContainerEventListener = (gameAreaEl) => {
   gameAreaEl.addEventListener('click', (e) => {
-    if (animationPlaying || gameState.gameEnded) {
+    if (animationPlaying || gameState.gameEnded || gameState.ai) {
       return;
     }
 
@@ -70,7 +75,7 @@ export const addWaterContainerEventListener = (gameAreaEl) => {
       else if (currentWaterContainer.isEqualNode(newWaterContainer)) {
         unhoverWaterContainer(newWaterContainer);
       }
-      // A water container is already selected, selecting the different one
+      // A water container is already selected, selecting a different one
       else {
         moveWaterContainer(currentWaterContainer, newWaterContainer);
 
@@ -140,6 +145,10 @@ const handleWaterContainerAnimationEnd = (waterContainer) => {
     currentWaterContainer = null;
     animationPlaying = false;
 
+    // For ai playing, used to call the next move water container function
+    aiPourWaterCallback && aiPourWaterCallback();
+    aiPourWaterCallback = null;
+
     // After the water container is back in place, check if the game has ended
     if (gameState.isEndState()) {
       handleGameEnd();
@@ -202,6 +211,9 @@ const moveWaterContainer = (from, to) => {
 
   // Disable the menu buttons
   disableMenuBtns();
+
+  // Clear any indicators
+  clearIndicators();
 
   fromContainer = from;
   toContainer = to;
@@ -301,4 +313,17 @@ const handleGameEnd = () => {
 
     gameEndModal.show();
   }, 500);
+};
+
+export const aiPourWater = (fromContainer, toContainer, callback) => {
+  const hoverAnimationDuration = 300 / animationSpeed;
+  const delay = 100;
+
+  hoverWaterContainer(fromContainer);
+
+  aiPourWaterCallback = callback;
+
+  setTimeout(() => {
+    moveWaterContainer(fromContainer, toContainer);
+  }, hoverAnimationDuration + delay);
 };

@@ -57,6 +57,8 @@ export class Bfs {
       // Expand the node --> Generate the valid next states
       const nextStateNodes = validNextStateNodes(currentStateNode);
 
+      statesGenerated += nextStateNodes.length;
+
       // For every next valid state nodes
       for (let i = 0; i < nextStateNodes.length; i++) {
         // If it is not already on frontier or explored
@@ -80,7 +82,6 @@ export class Bfs {
 
           // Insert it into the frontier map
           this.frontierMap.set(nextStateNodes[i].hashCode, nextStateNodes[i]);
-          statesGenerated++;
         }
       }
     }

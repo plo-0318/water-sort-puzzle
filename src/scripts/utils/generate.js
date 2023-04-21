@@ -1,6 +1,10 @@
 'use strict';
 
 import Confetti from '../views/confetti.js';
+import { indicatorFromIcon, indicatorToIcon } from '../views/icons.js';
+
+let indicators = [];
+let clearIndicatorsTimeout = null;
 
 export const generateWater = (color) => {
   const waterEl = document.createElement('div');
@@ -137,7 +141,7 @@ export const generateWaterStream = (waterContainer, color) => {
   waterStreamEl.classList.add('water-stream');
 
   waterStreamEl.style.top = `${rect.bottom}px`;
-  waterStreamEl.style.left = `${rect.left}px`;
+  waterStreamEl.style.left = `${rect.left + rect.width / 2}px`;
   waterStreamEl.style.backgroundColor = color;
 
   document.body.appendChild(waterStreamEl);
@@ -145,4 +149,69 @@ export const generateWaterStream = (waterContainer, color) => {
   waterStreamEl.classList.add('water-stream-fall');
 
   return waterStreamEl;
+};
+
+const addIndicatorEventListener = (indicator) => {
+  indicator.classList.add('water-container-indicator__show');
+
+  indicator.addEventListener('animationend', (e) => {
+    if (e.target.classList.contains('water-container-indicator__remove')) {
+      e.target.remove();
+
+      return;
+    }
+
+    if (e.target.classList.contains('water-container-indicator__show')) {
+      e.target.classList.add('water-container-indicator__blink');
+    }
+  });
+};
+
+export const generateIndicators = (fromWaterContainer, toWaterContainer) => {
+  forceRemoveIndicators();
+
+  const fromIcon = indicatorFromIcon();
+  const toIcon = indicatorToIcon();
+
+  const fromRect = fromWaterContainer.getBoundingClientRect();
+  const toRect = toWaterContainer.getBoundingClientRect();
+
+  fromIcon.style.top = `${fromRect.top}px`;
+  fromIcon.style.left = `${fromRect.left + fromRect.width / 2}px`;
+
+  toIcon.style.top = `${toRect.top}px`;
+  toIcon.style.left = `${toRect.left + toRect.width / 2}px`;
+
+  addIndicatorEventListener(fromIcon);
+  addIndicatorEventListener(toIcon);
+
+  document.body.appendChild(fromIcon);
+  document.body.appendChild(toIcon);
+
+  indicators.push(fromIcon);
+  indicators.push(toIcon);
+
+  clearIndicatorsTimeout = setTimeout(() => {
+    clearIndicators();
+  }, 3000);
+};
+
+export const clearIndicators = () => {
+  indicators.forEach((indicator) => {
+    indicator.classList.remove('water-container-indicator__blink');
+    indicator.classList.remove('water-container-indicator__show');
+    indicator.classList.add('water-container-indicator__remove');
+  });
+
+  indicators = [];
+
+  clearIndicatorsTimeout && clearTimeout(clearIndicatorsTimeout);
+};
+
+const forceRemoveIndicators = () => {
+  indicators.forEach((indicator) => indicator.remove());
+
+  indicators = [];
+
+  clearIndicatorsTimeout && clearTimeout(clearIndicatorsTimeout);
 };

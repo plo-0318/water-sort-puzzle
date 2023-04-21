@@ -1,4 +1,14 @@
+'use strict';
+
+import { algorithm } from '../gameSetting.js';
+import { Dfs } from './dfs.js';
+import { Bfs } from './bfs.js';
+
 let worker = undefined;
+
+const createAlgorithm = (state) => {
+  return algorithm === 'dfs' ? new Dfs(state) : new Bfs(state);
+};
 
 const stopWorker = () => {
   if (worker) {
@@ -7,7 +17,7 @@ const stopWorker = () => {
   }
 };
 
-export const search = (algorithm, callback) => {
+export const search = (state, callback) => {
   // Worker is working
   if (worker) {
     return;
@@ -19,7 +29,7 @@ export const search = (algorithm, callback) => {
   });
 
   // Send the algorithm object to the worker
-  worker.postMessage(algorithm);
+  worker.postMessage(createAlgorithm(state));
 
   // When worker is complete execute the callback
   worker.onmessage = (message) => {
