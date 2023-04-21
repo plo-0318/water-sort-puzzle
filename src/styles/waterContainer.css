@@ -9,6 +9,7 @@
 
 :root {
   --game-area-width: 80rem;
+  --game-area-margin: 12.6rem auto 0 auto;
 }
 
 :root {
@@ -33,6 +34,50 @@
   --teal: #12b886;
   --green: #40c057;
   --orange: #fd7e14;
+}
+
+@media (max-width: 600px) {
+  :root {
+    --game-area-margin: 11.2rem auto 0 auto;
+  }
+
+  :root {
+    --water-container-width: 3.2rem;
+    --water-container-height: 13.6rem;
+
+    --water-container-hgap: 3.6rem;
+    --water-container-vgap: 8.2rem;
+  }
+}
+
+@media (max-width: 440px) {
+  :root {
+    --game-area-margin: 10.2rem auto 0 auto;
+  }
+
+  :root {
+    --water-container-width: 2.6rem;
+    --water-container-height: 10.2rem;
+    --water-container-border-width: 2.4px;
+
+    --water-container-hgap: 3rem;
+    --water-container-vgap: 8.2rem;
+  }
+}
+
+@media (max-width: 370px) {
+  :root {
+    --game-area-margin: 8.2rem auto 0 auto;
+  }
+
+  :root {
+    --water-container-width: 2.2rem;
+    --water-container-height: 8.2rem;
+    --water-container-border-width: 2px;
+
+    --water-container-hgap: 2.4rem;
+    --water-container-vgap: 7.6rem;
+  }
 }
 
 html {
@@ -62,9 +107,8 @@ html {
 }
 
 .game_area-container {
-  width: var(--game-area-width);
-  height: 60rem;
-  margin: 1.2rem auto 0 auto;
+  max-width: var(--game-area-width);
+  margin: var(--game-area-margin);
 
   display: flex;
   flex-direction: column;
@@ -157,7 +201,7 @@ html {
 
   to {
     transform: translate(
-        calc(var(--move-x) - var(--water-container-hgap)),
+        var(--move-x),
         calc(var(--move-y) - var(--water-container-height_extra) * 1.5)
       )
       rotate(var(--rotate));
@@ -168,7 +212,7 @@ html {
 @keyframes unmoveWaterContainer {
   from {
     transform: translate(
-        calc(var(--move-x) - var(--water-container-hgap)),
+        var(--move-x),
         calc(var(--move-y) - var(--water-container-height_extra) * 1.5)
       )
       rotate(var(--rotate));

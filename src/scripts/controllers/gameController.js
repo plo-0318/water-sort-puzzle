@@ -215,20 +215,42 @@ const moveWaterContainer = (from, to) => {
   // Clear any indicators
   clearIndicators();
 
+  const offScreen = (fromRect, toRect, pourLeft) => {
+    let distanceBetweenScreen;
+
+    // If the container is pouring to the left
+    // Check the distance between the center of the to container and the right viewport
+    if (pourLeft) {
+      distanceBetweenScreen =
+        window.innerWidth - toRect.left - toRect.width / 2;
+    }
+    // If the container is pouring to the right
+    // Check the distance between the center of the to container and the left viewport
+    else {
+      distanceBetweenScreen = toRect.left + toRect.width / 2;
+    }
+
+    return fromRect.height >= distanceBetweenScreen;
+  };
+
   fromContainer = from;
   toContainer = to;
 
   const fromRect = from.getBoundingClientRect();
   const toRect = to.getBoundingClientRect();
 
-  const left = fromRect.x > toRect.x;
+  let pourLeft = fromRect.x > toRect.x;
 
-  const xOffset = left ? fromRect.height : 0;
+  if (offScreen(fromRect, toRect, pourLeft)) {
+    pourLeft = !pourLeft;
+  }
+
+  const xOffset = pourLeft ? fromRect.height / 2 : fromRect.height / -2;
   const yOffset = toRect.top - fromRect.top;
 
-  const moveX = toRect.x - fromRect.x - fromRect.width + xOffset;
+  const moveX = toRect.x - fromRect.x + xOffset;
   const moveY = (fromRect.height / 2 + fromRect.width - yOffset) * -1;
-  const rotate = left ? '-90' : '90';
+  const rotate = pourLeft ? '-90' : '90';
 
   from.style.setProperty('--move-x', `${moveX}px`);
   from.style.setProperty('--move-y', `${moveY}px`);

@@ -84,6 +84,9 @@ initGame();
 console.log(startNewGame('easy'));
 
 // const ws = document.querySelectorAll('.water-container');
+
+// moveContainer(ws[5], ws[4]);
+
 // setTimeout(() => {
 //   aiPourWater(ws[0], ws[3]);
 // }, 3000);
@@ -97,7 +100,7 @@ console.log(startNewGame('easy'));
 // console.log(rect.bottom);
 // console.log(window.innerHeight);
 
-//TODO: fix increment hints, remove indicator when starting to pour?
+//TODO: add responsive design for modals
 
 // const from = ['#1c7ed6', '#e03131', '#ae3ec9', '#e03131'];
 // const to = ['#1c7ed6', '#ae3ec9', '#e03131'];

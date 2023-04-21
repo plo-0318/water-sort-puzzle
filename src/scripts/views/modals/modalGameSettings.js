@@ -299,6 +299,7 @@ class ModalGameSettings extends Modal {
       () => {
         this._selectDifficultyOption(this.selectedDifficulty.btn);
         this._hideSwitchDifficultyModal();
+        this.hide();
       },
       null,
       'modal-btn-restart'
