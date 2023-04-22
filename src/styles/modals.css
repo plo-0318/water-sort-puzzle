@@ -273,7 +273,6 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  width: 100%;
 
   gap: var(--game-end-modal-stats-container-gap);
 }
@@ -281,6 +280,7 @@
 .game-end-stats-container__ai {
   padding: var(--ai-modal-stats-container-padding);
   gap: var(--ai-modal-stat-container-gap);
+  width: 100%;
 }
 
 .game-end-stat-container {
