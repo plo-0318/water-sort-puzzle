@@ -37,7 +37,7 @@ export const colors = {
   purple: '#ae3ec9',
   teal: '#12b886',
   pink: '#f783ac',
-  orange: ' #fd7e14',
+  orange: '#fd7e14',
   yellow: '#ffe066',
   green: '#2b8a3e',
   indigo: '#91a7ff',
