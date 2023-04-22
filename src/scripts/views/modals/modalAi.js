@@ -9,7 +9,7 @@ import {
 import { cancelSearch } from '../../search/search.js';
 
 class ModalAI extends Modal {
-  constructor(gameState) {
+  constructor(gameState, aiPlay = false) {
     super(gameState);
 
     this.spinner = null;
@@ -18,7 +18,7 @@ class ModalAI extends Modal {
 
     this.cancelBtnClickHandler = () => {
       cancelSearch();
-      this.gameState.hints--;
+      aiPlay || this.gameState.hints--;
       this.hide();
     };
 

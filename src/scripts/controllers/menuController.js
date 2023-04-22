@@ -36,6 +36,7 @@ let restartModal = createRestartModal();
 let newGameModal = createNewGameModal();
 let gameSettingsModal = new ModalGameSettings(gameState);
 let aiHintModal = new ModalAI(gameState);
+let aiPlayModal = new ModalAI(gameState, true);
 let unsupportedModal = createWorkerUndefinedModal();
 
 export const disableMenuBtns = () => {
@@ -58,6 +59,10 @@ menuContainer.addEventListener('click', (e) => {
       e.target.style.transform = 'scale(1)';
     }, 200);
   }
+});
+
+settingBtn.addEventListener('click', () => {
+  gameSettingsModal.show();
 });
 
 newGameBtn.addEventListener('click', () => {
@@ -105,7 +110,7 @@ hintBtn.addEventListener('click', () => {
     }
   };
 
-  handleAiClick(showIndicators);
+  handleAiClick(showIndicators, aiHintModal);
 });
 
 aiBtn.addEventListener('click', () => {
@@ -149,14 +154,10 @@ aiBtn.addEventListener('click', () => {
     aiPlayModal.show();
   };
 
-  handleAiClick(showAiPlayModal);
+  handleAiClick(showAiPlayModal, aiPlayModal);
 });
 
-settingBtn.addEventListener('click', () => {
-  gameSettingsModal.show();
-});
-
-const handleAiClick = (onContinue) => {
+const handleAiClick = (onContinue, aiModal) => {
   let stateIndexInPath = 0;
 
   // Check if we performed a searched previously and if a solution was found
@@ -183,7 +184,7 @@ const handleAiClick = (onContinue) => {
   }
 
   // Show the modal
-  aiHintModal.show();
+  aiModal.show();
 
   search(gameState.currentState(), (data) => {
     // Store the search result
@@ -195,6 +196,6 @@ const handleAiClick = (onContinue) => {
     };
 
     // Finish the spinner animation and show the search result
-    aiHintModal.finish(data);
+    aiModal.finish(data);
   });
 };
