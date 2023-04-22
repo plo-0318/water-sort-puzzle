@@ -66,7 +66,7 @@
   transition: all 0.3s;
 }
 
-.menu-item-container:hover {
+body.hasHover .menu-item-container:hover {
   cursor: pointer;
 }
 
@@ -84,7 +84,7 @@
   pointer-events: none;
 }
 
-.menu-item-container:hover > .icon {
+body.hasHover .menu-item-container:hover > .icon {
   stroke: #f4fce3;
 }
 

@@ -184,7 +184,7 @@ html {
   transition: all 0.3s;
 }
 
-.water-container:hover {
+body.hasHover .water-container:hover {
   cursor: pointer;
   border: var(--water-container-border-width) solid #fff;
 

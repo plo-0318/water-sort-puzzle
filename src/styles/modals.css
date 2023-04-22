@@ -360,7 +360,7 @@
   transition: all 0.3s;
 }
 
-.modal-btn:hover {
+body.hasHover .modal-btn:hover {
   background-color: var(--game-end-modal-btn-background-color__hover);
 }
 
@@ -379,7 +379,7 @@
   color: #eee;
 }
 
-.modal-btn-restart:hover {
+body.hasHover .modal-btn-restart:hover {
   background-color: var(--menu-modal-restart-color);
 }
 
@@ -388,7 +388,7 @@
   color: #2e2e2e;
 }
 
-.modal-btn-cancel:hover {
+body.hasHover .modal-btn-cancel:hover {
   background-color: #51cf66;
 }
 
@@ -428,7 +428,7 @@
   transform: translate(-25%, 25%);
 }
 
-.modal-settings-close-icon-wrapper:hover {
+body.hasHover .modal-settings-close-icon-wrapper:hover {
   cursor: pointer;
 }
 
@@ -443,7 +443,7 @@
   transition: all 0.3s;
 }
 
-.modal-settings-close-icon-wrapper:hover > .close-icon {
+body.hasHover .modal-settings-close-icon-wrapper:hover > .close-icon {
   stroke: #fff;
 }
 
@@ -490,7 +490,7 @@
   transition: all 0.3s;
 }
 
-.setting-option:hover {
+body.hasHover .setting-option:hover {
   border: 2px solid #f4fce3;
 
   cursor: pointer;
@@ -505,7 +505,7 @@
   transition: all 0.3s;
 }
 
-.setting-option:hover > .setting-option-text {
+body.hasHover .setting-option:hover > .setting-option-text {
   color: #f4fce3;
 }
 
@@ -517,7 +517,7 @@
   opacity: 1;
 }
 
-.setting-option.setting-option__selected:hover {
+body.hasHover .setting-option.setting-option__selected:hover {
   background-color: #f4fce3;
 }
 
@@ -548,7 +548,7 @@
   pointer-events: none;
 }
 
-.setting-option:hover > .setting-option-icon {
+body.hasHover .setting-option:hover > .setting-option-icon {
   fill: #f4fce3;
 }
 
@@ -573,6 +573,6 @@
   color: #2e2e2e;
 }
 
-.modal-btn-confirm__ai:hover {
+body.hasHover .modal-btn-confirm__ai:hover {
   background-color: var(--ai-modal-color__hover);
 }

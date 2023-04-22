@@ -10,20 +10,12 @@ import {
   generateRowContainer,
   generateRandomGameState,
 } from './utils/generate.js';
-import { removeWaterStreams } from './utils/util.js';
+import { removeWaterStreams, watchForHover } from './utils/util.js';
 import {
   addWaterContainerEventListener,
   addWaterContainerAnimationEventListener,
   resetGameControllerState,
 } from './controllers/gameController.js';
-
-import { Dfs } from './search/dfs.js';
-import { Bfs } from './search/bfs.js';
-import { StateNode } from './search/searchUtil.js';
-import { search, cancelSearch } from './search/search.js';
-import ModalAI from './views/modals/modalAi.js';
-import { generateIndicators, generateWaterStream } from './utils/generate.js';
-import { aiPourWater } from './controllers/gameController.js';
 
 let gameAreaEl = null;
 
@@ -80,5 +72,6 @@ export const startNewGame = (difficulty, _gameState = null) => {
   return state;
 };
 
+watchForHover();
 initGame();
 startNewGame('easy');
