@@ -40,10 +40,16 @@
   :root {
     --game-area-margin: 11.2rem auto 0 auto;
   }
+}
+
+@media (max-width: 530px) {
+  :root {
+    --game-area-margin: 11.2rem auto 0 auto;
+  }
 
   :root {
-    --water-container-width: 3.2rem;
-    --water-container-height: 11.6rem;
+    --water-container-width: 3.6rem;
+    --water-container-height: 14.8rem;
 
     --water-container-hgap: 3.6rem;
     --water-container-vgap: 8.2rem;
@@ -56,8 +62,8 @@
   }
 
   :root {
-    --water-container-width: 2.6rem;
-    --water-container-height: 9.6rem;
+    --water-container-width: 3.6rem;
+    --water-container-height: 12.6rem;
     --water-container-border-width: 2.4px;
 
     --water-container-hgap: 3rem;
@@ -65,18 +71,48 @@
   }
 }
 
-@media (max-width: 370px) {
+@media (max-width: 380px) {
   :root {
     --game-area-margin: 8.2rem auto 0 auto;
   }
 
   :root {
-    --water-container-width: 2.2rem;
-    --water-container-height: 7.6rem;
-    --water-container-border-width: 2px;
+    --water-container-width: 3.2rem;
+    --water-container-height: 10.8rem;
+    --water-container-border-width: 2.2px;
 
     --water-container-hgap: 2.4rem;
     --water-container-vgap: 7.6rem;
+  }
+}
+
+@media (max-width: 330px) {
+  :root {
+    --game-area-margin: 8.2rem auto 0 auto;
+  }
+
+  :root {
+    --water-container-width: 2.8rem;
+    --water-container-height: 8.6rem;
+    --water-container-border-width: 2px;
+
+    --water-container-hgap: 2rem;
+    --water-container-vgap: 6.8rem;
+  }
+}
+
+@media (max-width: 280px) {
+  :root {
+    --game-area-margin: 8.2rem auto 0 auto;
+  }
+
+  :root {
+    --water-container-width: 2.4rem;
+    --water-container-height: 7.2rem;
+    --water-container-border-width: 1.8px;
+
+    --water-container-hgap: 1.6rem;
+    --water-container-vgap: 6.4rem;
   }
 }
 

@@ -1,23 +1,43 @@
 :root {
   --menu-items-gap: 3.6rem;
-  --menu-item-size: 3.6rem;
+  --menu-item-size: 4.8rem;
 }
 
 @media (max-width: 600px) {
   :root {
-    --menu-items-gap: 3.2rem;
-    --menu-item-size: 3.2rem;
+    --menu-item-size: 4.2rem;
   }
 }
 
-@media (max-width: 440px) {
+@media (max-width: 530px) {
+  :root {
+    --menu-items-gap: 3.2rem;
+    --menu-item-size: 3.6rem;
+  }
+}
+
+@media (max-width: 400px) {
+  :root {
+    --menu-items-gap: 2.8rem;
+    --menu-item-size: 3.4rem;
+  }
+}
+
+@media (max-width: 370px) {
   :root {
     --menu-items-gap: 2.8rem;
     --menu-item-size: 2.8rem;
   }
 }
 
-@media (max-width: 370px) {
+@media (max-width: 330px) {
+  :root {
+    --menu-items-gap: 2.2rem;
+    --menu-item-size: 2.6rem;
+  }
+}
+
+@media (max-width: 280px) {
   :root {
     --menu-items-gap: 1.8rem;
     --menu-item-size: 2.4rem;

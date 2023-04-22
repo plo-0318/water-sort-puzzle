@@ -4,7 +4,6 @@ const Confetti = function (mainContainerEl) {
   this.mainContainerEl = mainContainerEl;
   this.confettiContainerEl = null;
   this.confettiAliveTime = [1.3, 1.8];
-  this.confettiSize = [7, 10];
 
   // The possible colors for the confetti
   this.confettiColors = ['#fce18a', '#ff726d', '#b48def', '#f4306d'];
@@ -15,6 +14,26 @@ const Confetti = function (mainContainerEl) {
 
   this._setupElements();
   this.flyUp();
+};
+
+Confetti.prototype._getConfettiSize = function () {
+  const vpWidth = window.innerWidth;
+
+  let size = [7, 10];
+
+  if (vpWidth <= 600) {
+    size = [5, 8];
+  }
+
+  if (vpWidth <= 440) {
+    size = [4, 7];
+  }
+
+  if (vpWidth <= 370) {
+    size = [3, 6];
+  }
+
+  return size;
 };
 
 Confetti.prototype._setupElements = function () {
@@ -103,8 +122,9 @@ Confetti.prototype.render = function () {
     const confettiEl = document.createElement('div');
 
     // Generate a random size between min and max size
-    const minConfettiSize = this.confettiSize[0];
-    const maxConfettiSize = this.confettiSize[1];
+    console.log(this._getConfettiSize());
+    const minConfettiSize = this._getConfettiSize()[0];
+    const maxConfettiSize = this._getConfettiSize()[1];
     const confettiSize =
       Math.floor(Math.random() * (maxConfettiSize - minConfettiSize + 1)) +
       minConfettiSize +
