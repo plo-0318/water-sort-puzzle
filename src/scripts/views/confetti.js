@@ -36,6 +36,26 @@ Confetti.prototype._getConfettiSize = function () {
   return size;
 };
 
+Confetti.prototype._getConfettiSpawnTime = function () {
+  const vpWidth = window.innerWidth;
+
+  let spawnTime = 25;
+
+  if (vpWidth <= 600) {
+    spawnTime = 50;
+  }
+
+  if (vpWidth <= 440) {
+    spawnTime = 75;
+  }
+
+  if (vpWidth <= 370) {
+    spawnTime = 100;
+  }
+
+  return spawnTime;
+};
+
 Confetti.prototype._setupElements = function () {
   // Create a confetti container element
   const containerEl = document.createElement('div');
@@ -122,7 +142,6 @@ Confetti.prototype.render = function () {
     const confettiEl = document.createElement('div');
 
     // Generate a random size between min and max size
-    console.log(this._getConfettiSize());
     const minConfettiSize = this._getConfettiSize()[0];
     const maxConfettiSize = this._getConfettiSize()[1];
     const confettiSize =
@@ -178,7 +197,7 @@ Confetti.prototype.render = function () {
 
     // Add the confetti element to the confetti container element
     this.confettiContainerEl.appendChild(confettiEl);
-  }, 25);
+  }, this._getConfettiSpawnTime());
 };
 
 Confetti.prototype.stopRender = function () {

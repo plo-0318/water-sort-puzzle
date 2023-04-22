@@ -23,6 +23,7 @@ let animationPlaying = false;
 let currentWaterContainer = null;
 let fromContainer = null;
 let toContainer = null;
+let waterPouring = null;
 let waterStreamEl = null;
 let pourWaterDelayTimeout = null;
 
@@ -33,6 +34,7 @@ export const resetGameControllerState = () => {
   currentWaterContainer = null;
   fromContainer = null;
   toContainer = null;
+  waterPouring = null;
   waterStreamEl = null;
 
   pourWaterDelayTimeout && clearTimeout(pourWaterDelayTimeout);
@@ -164,7 +166,8 @@ const handleWaterAnimationEnd = (water) => {
   // A unit of water has just finished it pouring animation
   if (water.classList.contains('water__decrease')) {
     // Remove the water from the DOM
-    water.remove();
+    waterPouring && waterPouring.remove();
+    waterPouring = null;
   }
   // A unit of water has just finished it filling animation
   else if (water.classList.contains('water__increase')) {
@@ -175,8 +178,15 @@ const handleWaterAnimationEnd = (water) => {
       generateConfetti(waterContainer, 3000);
     }
 
-    // Try to pour more water
+    // Remove the animation class
     water.classList.remove('water__increase');
+
+    // If this code ran before the water decreasing animation end handler
+    // Remove the decreasing water element
+    waterPouring && waterPouring.remove();
+    waterPouring = null;
+
+    // Try to pour more water
     pourWater(fromContainer, toContainer);
   }
 };
@@ -273,6 +283,8 @@ const pourWater = (from, to) => {
     const fromWaterEls = getWaterEls(fromContainer);
     const waterToPour = fromWaterEls[0];
     const waterColor = waterToPour.style.backgroundColor;
+
+    waterPouring = waterToPour;
 
     waterToPour.classList.add('water__decrease');
 
