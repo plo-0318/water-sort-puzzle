@@ -43,7 +43,7 @@
 
   :root {
     --water-container-width: 3.2rem;
-    --water-container-height: 13.6rem;
+    --water-container-height: 11.6rem;
 
     --water-container-hgap: 3.6rem;
     --water-container-vgap: 8.2rem;
@@ -57,7 +57,7 @@
 
   :root {
     --water-container-width: 2.6rem;
-    --water-container-height: 10.2rem;
+    --water-container-height: 9.6rem;
     --water-container-border-width: 2.4px;
 
     --water-container-hgap: 3rem;
@@ -72,7 +72,7 @@
 
   :root {
     --water-container-width: 2.2rem;
-    --water-container-height: 8.2rem;
+    --water-container-height: 7.6rem;
     --water-container-border-width: 2px;
 
     --water-container-hgap: 2.4rem;

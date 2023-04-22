@@ -186,8 +186,6 @@ const handleAiClick = (onContinue) => {
   aiHintModal.show();
 
   search(gameState.currentState(), (data) => {
-    console.log(data);
-
     // Store the search result
     gameState.setSearchResult(data);
 

@@ -4,6 +4,7 @@
   */
 
 :root {
+  --modal-top: 15vh;
   --modal-container-min-width: 30rem;
   --modal-container-height: 30rem;
   --modal-container-padding: 3.2rem 1.2rem;
@@ -38,6 +39,7 @@
   --menu-modal-restart-color: #fa5252;
 
   --menu-modal-settings-color: #c0eb75;
+  --menu-modal-settings-close-icon-size: 3.2rem;
   --menu-modal-settings-container-margin: 1.6rem 0 0 0;
   --menu-modal-settings-container-padding: 0 3.6rem;
   --menu-modal-settings-container-gap: 2.4rem;
@@ -45,16 +47,126 @@
   --menu-modal-settings-title-text-font-size: 2rem;
   --menu-modal-settings-title-text-font-weight: 600;
 
-  --menu-modal-settings-option-container-width: 8.2rem;
   --menu-modal-settings-option-container-gap: 1.8rem;
+  --menu-modal-settings-option-width: 8.2rem;
   --menu-modal-settings-option-padding: 1.2rem 1.2rem;
   --menu-modal-settings-option-text-size: 1.6rem;
+  --menu-modal-settings-option-icon-wrapper-width: 4.2rem;
+  --menu-modal-settings-option-icon-size: 2.4rem;
+  --menu-modal-settings-option-selected-transform: scale(1.15);
 
   --ai-modal-color: #cc5de8;
   --ai-modal-color__hover: #da77f2;
   --ai-modal-btn-margin-top: 1.2rem;
   --ai-modal-stats-container-padding: 0 3.6rem;
   --ai-modal-stat-container-gap: 1.2rem;
+}
+
+@media (max-width: 800px) {
+  :root {
+    --ai-modal-stats-container-padding: 0 0;
+  }
+}
+
+@media (max-width: 660px) {
+  :root {
+    --modal-container-gap: 2.8rem;
+
+    --modal-title-text-font-size: 3rem;
+    --modal-content-text-font-size: 1.4rem;
+    --modal-btn-font-size: 1.4rem;
+    --modal-btn-padding: 1rem 2rem;
+
+    --game-end-modal-stat-container-gap: 1.2rem;
+    --game-end-modal-stat-icon-size: 2rem;
+    --game-end-modal-stat-text-size: 1.4rem;
+    --game-end-modal-stat-number-size: 1.6rem;
+
+    /* --menu-modal-settings-container-margin: 1.6rem 0 0 0; */
+    --menu-modal-settings-container-padding: 0 3.2rem;
+    --menu-modal-settings-container-gap: 2rem;
+
+    --menu-modal-settings-title-text-font-size: 1.8rem;
+    --menu-modal-settings-option-container-gap: 1.8rem;
+    --menu-modal-settings-option-width: 7.2rem;
+    --menu-modal-settings-option-padding: 1rem 1rem;
+    --menu-modal-settings-option-text-size: 1.4rem;
+    --menu-modal-settings-option-icon-wrapper-width: 3.6rem;
+    --menu-modal-settings-option-icon-size: 2rem;
+
+    --ai-modal-stats-container-padding: 0 0;
+  }
+}
+
+@media (max-width: 440px) {
+  :root {
+    --modal-top: 10vh;
+    --modal-container-gap: 2.4rem;
+
+    --menu-modal-settings-container-padding: 0 1.6rem;
+
+    --modal-btn-padding: 0.8rem 1.6rem;
+  }
+}
+
+@media (max-width: 370px) {
+  :root {
+    --modal-container-min-width: 28rem;
+    --modal-container-padding: 2.4rem 0.6rem;
+
+    --modal-title-text-font-size: 2.6rem;
+    --modal-content-text-font-size: 1.2rem;
+    --modal-btn-font-size: 1.2rem;
+
+    --game-end-modal-stat-container-gap: 1rem;
+    --game-end-modal-stat-icon-size: 1.8rem;
+    --game-end-modal-stat-text-size: 1.2rem;
+    --game-end-modal-stat-number-size: 1.4rem;
+
+    --menu-modal-settings-close-icon-size: 2.8rem;
+    --menu-modal-settings-container-margin: 1.2rem 0 0 0;
+    --menu-modal-settings-container-padding: 0 1.6rem;
+    --menu-modal-settings-container-gap: 1.6rem;
+
+    --menu-modal-settings-title-text-font-size: 1.4rem;
+    --menu-modal-settings-option-container-gap: 1.2rem;
+    --menu-modal-settings-option-width: 6.4rem;
+    --menu-modal-settings-option-padding: 0.8rem 1rem;
+    --menu-modal-settings-option-text-size: 1.2rem;
+    --menu-modal-settings-option-icon-wrapper-width: 3.2rem;
+    --menu-modal-settings-option-icon-size: 1.6rem;
+    --menu-modal-settings-option-selected-transform: scale(1.08);
+  }
+}
+
+@media (max-width: 300px) {
+  :root {
+    --modal-container-min-width: 24rem;
+    --modal-container-padding: 2rem 0.4rem;
+
+    --modal-title-text-font-size: 2.4rem;
+    --modal-content-text-font-size: 1.1rem;
+    --modal-btn-font-size: 1.1rem;
+    --modal-btn-padding: 0.6rem 1.2rem;
+
+    --game-end-modal-stat-icon-size: 1.6rem;
+    --game-end-modal-stat-text-size: 1.1rem;
+    --game-end-modal-stat-number-size: 1.3rem;
+
+    --menu-modal-settings-close-icon-size: 2.4rem;
+    --menu-modal-settings-container-margin: 0.8rem 0 0 0;
+    --menu-modal-settings-container-padding: 0 0;
+    --menu-modal-settings-container-gap: 1.2rem;
+
+    --menu-modal-settings-title-text-font-size: 1.3rem;
+    --menu-modal-settings-option-container-gap: 0.8rem;
+    --menu-modal-settings-option-width: 6.4rem;
+    --menu-modal-settings-option-padding: 0.8rem 1rem;
+    --menu-modal-settings-option-text-size: 1.2rem;
+    --menu-modal-settings-option-icon-wrapper-width: 2.8rem;
+    --menu-modal-settings-option-icon-size: 1.4rem;
+    --menu-modal-settings-option-selected-transform: scale(1.05);
+  }
 }
 
 .modal-backdrop {
@@ -87,7 +199,7 @@
 .modal {
   position: fixed;
 
-  top: 15vh;
+  top: var(--modal-top);
   left: 50%;
 
   transform: translate(-50%);
@@ -161,6 +273,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
+  width: 100%;
 
   gap: var(--game-end-modal-stats-container-gap);
 }
@@ -320,7 +433,7 @@
 }
 
 .close-icon {
-  width: 3.2rem;
+  width: var(--menu-modal-settings-close-icon-size);
 
   /* stroke: var(--menu-modal-settings-color); */
   stroke: #eee;
@@ -362,7 +475,7 @@
 }
 
 .setting-option {
-  width: var(--menu-modal-settings-option-container-width);
+  width: var(--menu-modal-settings-option-width);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -399,7 +512,7 @@
 .setting-option.setting-option__selected {
   background-color: var(--menu-modal-settings-color);
 
-  transform: scale(1.15);
+  transform: var(--menu-modal-settings-option-selected-transform);
 
   opacity: 1;
 }
@@ -417,7 +530,7 @@
   position: relative;
 
   aspect-ratio: 1 / 1;
-  width: 4.2rem;
+  width: var(--menu-modal-settings-option-icon-wrapper-width);
 }
 
 .setting-option-icon {
@@ -428,7 +541,7 @@
 
   transform: translate(-50%, -50%);
 
-  width: 2.4rem;
+  width: var(--menu-modal-settings-option-icon-size);
 
   fill: var(--menu-modal-settings-color);
 
